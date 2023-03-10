@@ -28,8 +28,6 @@ app.post("/webhook", function (request, response) {
   response.sendStatus(200);
 });
 
-var listener = app.listen(process.env.PORT, function () {
-  console.log("Escuchando en puerto " + listener.address().port);
-});
+
 
 module.exports = app;
