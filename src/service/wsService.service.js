@@ -6,7 +6,11 @@ exports.test = async function() {
 
 exports.sendTextMessage = function(messageText, phoneNumber) {
 
+    if(messageText === null || messageText === '')
+        return;
     let message = buildTextMessage(messageText,phoneNumber);
+    console.log('serviceeeeeeeeeeeeeeeee');
+    console.log(message);
     request(builMessage(message), (error, response, body)=>
     {
         if(error)
@@ -52,13 +56,13 @@ function buildTextMessage(messageText, phoneNumber)
 {
     let message =
     {
-      "messaging_product": "whatsapp",
-      "recipient_type": "individual",
-      "to": phoneNumber,
-      "type": "text",
-      "text": { 
-        "preview_url": false,
-        "body": messageText
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: phoneNumber,
+      type: "text",
+      text: { 
+        preview_url: false,
+        body: messageText
         }
     };
 
