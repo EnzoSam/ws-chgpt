@@ -6,6 +6,7 @@ exports.test = async function() {
 
 exports.sendTextMessage = function(messageText, phoneNumber) {
 
+    console.log(messageText);
     console.log('messageText ' + messageText + ' ' + phoneNumber);
     if(messageText === null || messageText === '')
     return;
