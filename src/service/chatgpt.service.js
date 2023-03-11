@@ -1,3 +1,4 @@
+var axios = require('axios');
 const apiKey = process.env.OPENAI_API_KEY;
 
 
