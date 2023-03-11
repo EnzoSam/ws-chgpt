@@ -24,6 +24,7 @@ var controller = {
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
         ChatGPTController.chat(textMessage).then((response) => {
+            console.log(response);
             WsController.sendTextMessage(response.data.choices[0].text,"5493751446485");
           })
           .catch((error) => {
