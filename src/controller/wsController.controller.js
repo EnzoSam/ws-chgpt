@@ -22,7 +22,7 @@ var controller = {
     try{
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
-        WsController.sendTextMessage("","5493751446485");
+        WsController.sendTextMessage(textMessage,"5493751446485");
     }
     catch(ex)
     {
