@@ -7,11 +7,9 @@ exports.test = async function() {
 exports.sendTextMessage = function(messageText, phoneNumber) {
 
     console.log(messageText);
-    console.log('messageText ' + messageText + ' ' + phoneNumber);
     if(messageText === null || messageText === '')
     return;
     var data = getTextMessageInput(phoneNumber, messageText);
-    console.log(data);
     sendMessage(data)
       .then(function (response) {
 
@@ -41,5 +39,8 @@ exports.getMessageTextFromWhebhookObject = function(whebhookObject) {
     if(!whebhookObject.entry[0].changes[0].value.messages)
         return null;        
 
-    return  whebhookObject.entry[0].changes[0].value.messages[0].text;
+    if(!whebhookObject.entry[0].changes[0].value.messages[0].text)
+        return null;           
+
+    return  whebhookObject.entry[0].changes[0].value.messages[0].text.body;
 };
