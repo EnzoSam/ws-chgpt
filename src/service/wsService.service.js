@@ -1,4 +1,4 @@
-var request = require('request');
+const { sendMessage, getTextMessageInput } = require("./whatsappHelper");
 
 exports.test = async function() {
     console.log("WSService Ok");
@@ -7,24 +7,22 @@ exports.test = async function() {
 exports.sendTextMessage = function(messageText, phoneNumber) {
 
     if(messageText === null || messageText === '')
+    return;
+    var data = getTextMessageInput(phoneNumber, messageText);
+  
+    sendMessage(data)
+      .then(function (response) {
+
+        console.log('enviadoooooo');
+            console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+        console.log(error.response.data);
+        res.sendStatus(500);
         return;
-    let message = buildTextMessage(messageText,phoneNumber);
-    console.log('serviceeeeeeeeeeeeeeeee');
-    console.log(message);
-    let options = builMessage(message);
-    console.log('optionssssss');
-    console.log(options);
-    request(options, (error, response, body)=>
-    {
-        if(error)
-        {
-            console.log(error);
-        }
-        else if (response.statusCode == 200) {
-            console.log(messageText + ' enviado a ' + phoneNumber);
-            console.log(body);
-        }
-    });
+      });
+  
 };
 
 exports.getMessageTextFromWhebhookObject = function(whebhookObject) {
@@ -43,53 +41,3 @@ exports.getMessageTextFromWhebhookObject = function(whebhookObject) {
 
     return  whebhookObject.entry[0].changes[0].value.messages[0].text;
 };
-
-
-function buildHeaders() {
-    let header = 
-    {
-        'Authorization': process.env.WHATSAPP_TOKEN,
-        'Content-Type': 'application/json'
-    }
-
-    return header;
-}
-
-function buildTextMessage(messageText, phoneNumber)
-{
-    let message =
-    {
-      messaging_product: "whatsapp",
-      recipient_type: "individual",
-      to: phoneNumber,
-      type: "text",
-      text: { 
-        preview_url: false,
-        body: messageText
-        }
-    };
-
-    return message;
-}
-
-function buildUrlApi()
-{
-    let url ='https://graph.facebook.com/v16.0/' + 
-    process.env.FROM_PHONE_NUMBER_ID + '/messages';
-
-    return url;
-}
-
-function builMessage(message)
-{
-    let headers = buildHeaders();
-    let url = buildUrlApi();    
-    let options = {
-        url: url,
-        method: 'POST',
-        headers: headers,
-        body: message
-    };
-
-    return options;
-}
