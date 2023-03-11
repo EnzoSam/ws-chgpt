@@ -1,4 +1,5 @@
 const WsController = require('../service/wsService.service');
+const ChatGPTController = require('../service/chatgpt.service');
 
 var controller = {
   test: function (req, res) {
@@ -22,7 +23,12 @@ var controller = {
     try{
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
-        WsController.sendTextMessage(textMessage,"5493751446485");
+        ChatGPTController.chat(textMessage).then((response) => {
+            WsController.sendTextMessage(response.data.choices[0].text,"5493751446485");
+          })
+          .catch((error) => {
+            console.error(error);
+          });        
     }
     catch(ex)
     {
