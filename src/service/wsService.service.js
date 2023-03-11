@@ -11,7 +11,10 @@ exports.sendTextMessage = function(messageText, phoneNumber) {
     let message = buildTextMessage(messageText,phoneNumber);
     console.log('serviceeeeeeeeeeeeeeeee');
     console.log(message);
-    request(builMessage(message), (error, response, body)=>
+    let options = builMessage(message);
+    console.log('optionssssss');
+    console.log(message);
+    request(options, (error, response, body)=>
     {
         if(error)
         {
