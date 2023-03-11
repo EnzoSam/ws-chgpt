@@ -1,3 +1,5 @@
+const WsController = require('../service/wsService.service');
+
 var controller = {
   test: function (req, res) {
     return res.status(200).send({
@@ -16,6 +18,18 @@ var controller = {
   },
   notify:function (request, response) {
     console.log("Incoming webhook: " + JSON.stringify(request.body));
+
+    try{
+
+        let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
+        WsController.sendTextMessage("","5493751446485");
+    }
+    catch(ex)
+    {
+        console.log(ex);
+    }
+
+
     response.sendStatus(200);
   }
 };
