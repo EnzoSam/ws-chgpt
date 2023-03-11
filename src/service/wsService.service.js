@@ -13,7 +13,7 @@ exports.sendTextMessage = function(messageText, phoneNumber) {
     console.log(message);
     let options = builMessage(message);
     console.log('optionssssss');
-    console.log(message);
+    console.log(options);
     request(options, (error, response, body)=>
     {
         if(error)
