@@ -1,9 +1,6 @@
 var axios = require('axios');
 
 exports.chat = function (text) {
-
-console.log(process.env.OPENAI_API_KEY);
-
   return axios
     .post(
       "https://api.openai.com/v1/engines/davinci-codex/completions",

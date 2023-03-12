@@ -23,13 +23,15 @@ var controller = {
     try{
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
-        ChatGPTController.chat(textMessage).then((response) => {
+        ChatGPTController.chat(textMessage).
+        then(response=>
+          {
             console.log(response);
-            WsController.sendTextMessage(response.data.choices[0].text,"5493751446485");
+            res.status(200).send(response.data.choices[0].text);
           })
-          .catch((error) => {
-            console.error(error);
-          });        
+          .catch(error =>{
+            console.log(error);
+          });       
     }
     catch(ex)
     {
