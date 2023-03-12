@@ -21,6 +21,7 @@ var controller = {
     try{
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
+        WsController.sendTextMessage(textMessage, "543751446485");
         console.log(textMessage);
         ChatGPTController.chat(textMessage).
         then(response=>
