@@ -18,11 +18,10 @@ var controller = {
     }
   },
   notify:function (request, response) {
-    console.log("Incoming webhook: " + JSON.stringify(request.body));
-
     try{
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
+        console.log(textMessage);
         ChatGPTController.chat(textMessage).
         then(response=>
           {

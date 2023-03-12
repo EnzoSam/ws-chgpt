@@ -1,6 +1,5 @@
 exMess.temp.json
-
-../src/production.env
+src/production.env
 # Logs
 logs
 *.log
