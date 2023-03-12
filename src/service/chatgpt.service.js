@@ -1,8 +1,9 @@
 var axios = require('axios');
-const apiKey = process.env.OPENAI_API_KEY;
-
 
 exports.chat = function (text) {
+
+console.log(process.env.OPENAI_API_KEY);
+
   return axios
     .post(
       "https://api.openai.com/v1/engines/davinci-codex/completions",
@@ -14,7 +15,7 @@ exports.chat = function (text) {
       },
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
       }

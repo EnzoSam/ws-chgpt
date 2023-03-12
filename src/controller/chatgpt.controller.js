@@ -1,3 +1,4 @@
+const { response } = require('express');
 const ChatGPTController = require('../service/chatgpt.service');
 
 var controller = {
@@ -6,7 +7,20 @@ var controller = {
       message: "ChatGPTController OK.",
     });
   },
-
+  testChat: function (req, res) {
+    
+    let msge = req.params.message;
+    console.log(msge);
+    ChatGPTController.chat(msge).
+    then(response=>
+      {
+        console.log(response);
+        res.status(200).send(response.data.choices[0].text);
+      })
+      .catch(error =>{
+        console.log(error);
+      });
+  },
 };
 
 module.exports = controller;

@@ -1,11 +1,9 @@
 
 var express = require('express');
-var WSController = require('../controller/wsController.controller');
+var ChatGPTController = require('../controller/chatgpt.controller');
 
 var router = express.Router();
 
-router.get("/", WSController.test); 
-router.get("/webhook", WSController.verify);  
-router.post("/webhook", WSController.notify);
+router.get("/chat/:message", ChatGPTController.testChat); 
 
 module.exports = router;
