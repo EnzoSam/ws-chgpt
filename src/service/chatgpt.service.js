@@ -1,6 +1,8 @@
 var axios = require('axios');
 
 exports.chat = function (text) {
+
+  console.log('chat prompt = ' + text);
   return axios
     .post(
       "https://api.openai.com/v1/engines/davinci-codex/completions",
