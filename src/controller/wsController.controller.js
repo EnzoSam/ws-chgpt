@@ -22,21 +22,26 @@ var controller = {
 
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
-          console.log(request.body);
-        ChatGPTController.chat(textMessage).
-        then(response=>
-          {
-            WsController.sendTextMessage(response.data.choices[0].text, "543751446485").then(data=>
-              {
-                console.log('enviado');
-              }).catch(error)
-              {
-                console.log(error);
-              }
-          })
-          .catch(error =>{
-            console.log(error);
-          });       
+        {
+            console.log(request.body);
+        }
+        else
+        {
+          ChatGPTController.chat(textMessage).
+          then(response=>
+            {
+              WsController.sendTextMessage(response.data.choices[0].text, "543751446485").then(data=>
+                {
+                  console.log('enviado');
+                }).catch(error)
+                {
+                  console.log(error);
+                }
+            })
+            .catch(error =>{
+              console.log(error);
+          }); 
+        }      
     }
     catch(ex)
     {
