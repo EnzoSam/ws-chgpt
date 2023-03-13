@@ -26,7 +26,13 @@ var controller = {
         ChatGPTController.chat(textMessage).
         then(response=>
           {
-            WsController.sendTextMessage(response.data.choices[0].text, "543751446485");
+            WsController.sendTextMessage(response.data.choices[0].text, "543751446485").then(data=>
+              {
+                console.log('enviado');
+              }).catch(error)
+              {
+                console.log(error);
+              }
           })
           .catch(error =>{
             console.log(error);
