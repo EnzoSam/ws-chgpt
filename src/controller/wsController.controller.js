@@ -23,7 +23,7 @@ var controller = {
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
         {
-            console.log(request.body);
+            //console.log(request.body);
         }
         else
         {
