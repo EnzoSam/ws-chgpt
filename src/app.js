@@ -8,7 +8,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-axios.defaults.timeout = 15000;
+axios.defaults.timeout = 60000;
 
 var wsRoutes = require('./route/ws.route');
 var chatGPTRoutes = require('./route/chatgpt.route');
