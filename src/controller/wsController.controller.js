@@ -20,9 +20,6 @@ var controller = {
   notify:function (request, response) {
     try{
       
-      console.log(JSON.stringify(request.body));
-      response.sendStatus(200);
-      /*
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
         {
@@ -33,7 +30,8 @@ var controller = {
           ChatGPTController.chat(textMessage).
           then(response=>
             {
-              WsController.sendTextMessage(response.data.choices[0].text, "543751446485").then(data=>
+              let dest = WsController.getFromNumberTextFromWhebhookObject(request.body);
+              WsController.sendTextMessage(response.data.choices[0].text, dest).then(data=>
                 {
                   console.log('enviado');
                   response.sendStatus(200);
@@ -48,7 +46,7 @@ var controller = {
               response.sendStatus(200);
           }); 
         }     
-        */ 
+        
     }
     catch(ex)
     {

@@ -44,3 +44,20 @@ exports.getMessageTextFromWhebhookObject = function(whebhookObject) {
 
     return  whebhookObject.entry[0].changes[0].value.messages[0].text.body;
 };
+
+exports.getFromNumberTextFromWhebhookObject = function(whebhookObject) {
+
+    if(!whebhookObject.entry)
+        return null;
+    
+    if(!whebhookObject.entry[0].changes)
+        return null;
+
+    if(!whebhookObject.entry[0].changes[0].value)
+        return null;
+
+    if(!whebhookObject.entry[0].changes[0].value.messages)
+        return null;        
+
+    return whebhookObject.entry[0].changes[0].value.messages[0].from
+};
