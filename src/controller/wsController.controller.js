@@ -20,6 +20,9 @@ var controller = {
   notify:function (request, response) {
     try{
 
+      console.log(request.body);
+      response.sendStatus(200);
+      /*
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
         {
@@ -44,7 +47,8 @@ var controller = {
               console.log(error);
               response.sendStatus(200);
           }); 
-        }      
+        }     
+        */ 
     }
     catch(ex)
     {
