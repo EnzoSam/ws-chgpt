@@ -17,7 +17,7 @@ var controller = {
       res.sendStatus(400);
     }
   },
-  notify:function (request, response) {
+  notify:function (request, res) {
     try{
       
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
@@ -31,19 +31,19 @@ var controller = {
           then(response=>
             {
               let dest = WsController.getFromNumberTextFromWhebhookObject(request.body);
-              WsController.sendTextMessage(response.data.choices[0].text, dest).then(data=>
+              WsController.sendTextMessage(response.data.choices[0].text, dest).then(()=>
                 {
                   console.log('enviado');
-                  response.sendStatus(200);
+                  res.sendStatus(200);
                 }).catch(error=>
                 {
                   console.log(error);
-                  response.sendStatus(200);
+                  res.sendStatus(200);
                 });
             })
             .catch(error =>{
               console.log(error);
-              response.sendStatus(200);
+              res.sendStatus(200);
           }); 
         }     
         
@@ -51,7 +51,7 @@ var controller = {
     catch(ex)
     {
         console.log(ex);
-        response.sendStatus(200);
+        res.sendStatus(200);
     }    
   }
 };
