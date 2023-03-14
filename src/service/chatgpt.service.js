@@ -8,7 +8,7 @@ exports.chat = function (text) {
       "https://api.openai.com/v1/engines/davinci-codex/completions",
       {
         prompt: text,
-        max_tokens: 5,
+        max_tokens: 10,
         n: 1,
         stop: "\n",
       },

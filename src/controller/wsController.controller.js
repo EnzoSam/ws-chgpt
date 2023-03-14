@@ -33,23 +33,24 @@ var controller = {
               WsController.sendTextMessage(response.data.choices[0].text, "543751446485").then(data=>
                 {
                   console.log('enviado');
+                  response.sendStatus(200);
                 }).catch(error)
                 {
                   console.log(error);
-                }
+                  response.sendStatus(200);
+                }             
             })
             .catch(error =>{
               console.log(error);
+              response.sendStatus(200);
           }); 
         }      
     }
     catch(ex)
     {
         console.log(ex);
-    }
-
-
-    response.sendStatus(200);
+        response.sendStatus(200);
+    }    
   }
 };
 
