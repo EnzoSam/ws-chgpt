@@ -20,7 +20,7 @@ var controller = {
   notify:function (request, response) {
     try{
 
-      console.log(request.body);
+      console.log(request);
       response.sendStatus(200);
       /*
         let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
