@@ -35,11 +35,11 @@ var controller = {
                 {
                   console.log('enviado');
                   response.sendStatus(200);
-                }).catch(error)
+                }).catch(error=>
                 {
                   console.log(error);
                   response.sendStatus(200);
-                }             
+                });
             })
             .catch(error =>{
               console.log(error);
