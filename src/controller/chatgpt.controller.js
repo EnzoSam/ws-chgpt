@@ -13,8 +13,8 @@ var controller = {
     ChatGPTController.chat(msge).
     then(response=>
       {
-        console.log(response.data);
-       // res.status(200).send(response.data.choices[0].text);
+        console.log(response);
+        res.status(200).send(response);
       })
       .catch(error =>{
         console.log(error);

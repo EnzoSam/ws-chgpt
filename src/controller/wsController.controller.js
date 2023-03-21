@@ -31,7 +31,7 @@ var controller = {
           then(response=>
             {
               let dest = WsController.getFromNumberTextFromWhebhookObject(request.body);
-              WsController.sendTextMessage(response.data.choices[0].text, dest).then(()=>
+              WsController.sendTextMessage(response, dest).then(()=>
                 {
                   console.log('enviado');
                   res.sendStatus(200);
