@@ -11,10 +11,10 @@ var controller = {
     
     let msge = req.params.message;
     ChatGPTController.chat(msge).
-    then(response=>
+    then(data=>
       {
-        console.log(response);
-        res.status(200).send(response);
+        console.log(data);
+        res.status(200).send(data);
       })
       .catch(error =>{
         console.log(error);
