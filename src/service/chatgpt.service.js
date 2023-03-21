@@ -14,9 +14,9 @@ exports.chat = async function (text) {
       model: "gpt-3.5-turbo",
       messages: [{role: "user", content: text}],
     });
-    console.log(completion.data.choices[0].message);
+    console.log(completion.content);
 
-    return Promise.resolve(completion.data.choices[0].message);
+    return Promise.resolve(completion.content);
   }
     catch(ex)
     {
