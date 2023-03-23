@@ -54,3 +54,20 @@ exports.getFromNumberTextFromWhebhookObject = function (whebhookObject) {
 
   return whebhookObject.entry[0].changes[0].value.messages[0].from;
 };
+
+exports.getProfileNameFromWhebhookObject = function (whebhookObject) {
+  if (!whebhookObject.entry) return null;
+
+  if (!whebhookObject.entry[0].changes) return null;
+
+  if (!whebhookObject.entry[0].changes[0].value) return null;
+
+  if (!whebhookObject.entry[0].changes[0].value.contacts ||
+    whebhookObject.entry[0].changes[0].value.contacts.length === 0) return null;
+
+  if (!whebhookObject.entry[0].changes[0].value.contacts[0].profile) return null;
+
+  if (!whebhookObject.entry[0].changes[0].value.contacts[0].profile.name) return null;  
+
+  return whebhookObject.entry[0].changes[0].value.contacts[0].profile.name;
+};

@@ -1,5 +1,6 @@
-const WsController = require('../service/wsService.service');
+const WsService = require('../service/wsService.service');
 const ChatGPTController = require('../service/chatgpt.service');
+const TiketService = require('../service/tiket.service');
 
 var controller = {
   test: function (req, res) {
@@ -17,21 +18,46 @@ var controller = {
       res.sendStatus(400);
     }
   },
-  notify:function (request, res) {
-    try{
-      
-        let textMessage = WsController.getMessageTextFromWhebhookObject(request.body);
+  processMessage:function (request, res) {
+      try{
+        
+        let textMessage = WsService.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
         {
             //console.log(request.body);
         }
         else
         {
+          wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
+          wName = WsService.getProfileNameFromWhebhookObject(request.body);
+          if(wID && wID != '')
+            TiketService.verifyTiket(wID,wName,textMessage);
+        }             
+    }
+    catch(ex)
+    {
+        console.log(ex);
+        res.sendStatus(200);
+    } 
+  },
+  notify:function (request, res) {
+    try{
+      
+        let textMessage = WsService.getMessageTextFromWhebhookObject(request.body);
+        if(textMessage === null  || textMessage === '')
+        {
+            //console.log(request.body);
+        }
+        else
+        {
+          wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
+          wName = WsService.getProfileNameFromWhebhookObject(request.body);
+          TiketService.verifyTiket(wID,wName,textMessage);
           ChatGPTController.chat(textMessage).
           then(response=>
             {
-              let dest = WsController.getFromNumberTextFromWhebhookObject(request.body);
-              WsController.sendTextMessage(response, dest).then(()=>
+              let dest = WsService.getFromNumberTextFromWhebhookObject(request.body);
+              WsService.sendTextMessage(response, dest).then(()=>
                 {
                   console.log('enviado');
                   res.sendStatus(200);
