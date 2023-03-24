@@ -37,6 +37,7 @@ function verifyTiket(whatsappId, customeName, message) {
       query = query.where("customeWhatsappId").equals(whatsappId);
 
       query.exec().then(data => {
+        console.log(data);
         if (!data || data == null)
         {
           console.log('creando tiket');
