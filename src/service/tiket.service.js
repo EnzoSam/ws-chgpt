@@ -39,6 +39,7 @@ function verifyTiket(whatsappId, customeName, message) {
       query.exec().then(data => {
         if (!data || data == null)
         {
+          console.log(data);
           let tiket = new Tiket();
           tiket.state = tikets_states.Open;
           tiket.customeName = customeName;
