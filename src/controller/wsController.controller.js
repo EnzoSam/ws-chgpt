@@ -25,6 +25,7 @@ var controller = {
         if(textMessage === null  || textMessage === '')
         {
             //console.log(request.body);
+            res.sendStatus(200);
         }
         else
         {
@@ -32,6 +33,8 @@ var controller = {
           wName = WsService.getProfileNameFromWhebhookObject(request.body);
           if(wID && wID != '')
             TiketService.verifyTiket(wID,wName,textMessage);
+          
+          res.sendStatus(200);
         }             
     }
     catch(ex)
