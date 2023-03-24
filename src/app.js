@@ -16,10 +16,22 @@ var helpDeskRoutes = require('./route/helpDesk.route');
 var tiketsRoutes = require('./route/tikets.route');
 var assistantRoutes = require('./route/assistants.route');
 
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', process.env.ALLOW_ORIGIN);
+     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,OPTIONS,DELETE,PATCH');
+     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
+     if (req.method === "OPTIONS") {
+         return res.status(200).end();
+     }
+     next();
+ });
+
 app.use('/', wsRoutes);
 app.use('/', chatGPTRoutes);
 app.use('/api/help-desk/', helpDeskRoutes);
-app.use('/api/tikets/', tiketsRoutes);
+app.use('/api/tiket/', tiketsRoutes);
 app.use('/api/assistant/', assistantRoutes);
 
 module.exports = app;
