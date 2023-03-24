@@ -36,18 +36,25 @@ function verifyTiket(whatsappId, customeName, message) {
       query = query.where("state").equals(tikets_states.Open);
       query = query.where("customeWhatsappId").equals(whatsappId);
 
-      query.exec((err, tikets) => {
-        if (err) reject(err);
-        else {
+      query.exec().then(data => {
+        if (!data || data == null)
+        {
           let tiket = new Tiket();
           tiket.state = tikets_states.Open;
           tiket.customeName = customeName;
           tiket.customeWhatsappId = whatsappId;
           tiket.problemDescription = message;
           tiket.save();
-          resolve(asistants);
+          resolve(tiket);
         }
-      });
+        else
+        {
+            resolve(data);
+        }
+      }).catch(err=>
+        {
+          reject(err);
+        });
     } catch (ex) {
       reject(ex);
     }
