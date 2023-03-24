@@ -32,13 +32,13 @@ function getTikets(assistantId, fromDate, state) {
 function verifyTiket(whatsappId, customeName, message) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      let query = Tiket.find();
+      let query = Tiket.count();
       query = query.where("state").equals(tikets_states.Open);
       query = query.where("customeWhatsappId").equals(whatsappId);
 
       query.exec().then(data => {
         console.log(data);
-        if (!data || data == null)
+        if (!data || data == null || data === 0)
         {
           console.log('creando tiket');
           console.log(data);
