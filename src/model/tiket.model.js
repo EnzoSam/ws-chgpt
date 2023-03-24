@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 
 
 var TiketSchema = Schema({
-    customeWhatsappId: String,    
+    customeWhatsappId: String,  
+    number:Number,  
     customeName: String,
     problemDescription:String,
     assistant:{type:Schema.ObjectId, ref:Assistant},

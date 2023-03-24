@@ -39,24 +39,38 @@ function verifyTiket(whatsappId, customeName, message) {
       query.exec().then(data => {
         if (!data || data == null)
         {
+          console.log('creando tiket');
           console.log(data);
           let tiket = new Tiket();
           tiket.state = tikets_states.Open;
           tiket.customeName = customeName;
           tiket.customeWhatsappId = whatsappId;
           tiket.problemDescription = message;
-          tiket.save();
-          resolve(tiket);
+          tiket.number = 0;
+          tiket.save().then(data=>
+            {
+              resolve(tiket);
+              console.log('guardo tiket');
+            }).catch(errSave =>
+              {
+                console.log(errSave);
+                reject(errSave);
+              });
+          
+          
         }
         else
         {
+          console.log('sin tiket');
             resolve(data);
         }
       }).catch(err=>
         {
+          console.log(err);
           reject(err);
         });
     } catch (ex) {
+      console.log(ex);
       reject(ex);
     }
   });

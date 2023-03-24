@@ -24,7 +24,7 @@ var controller = {
         let textMessage = WsService.getMessageTextFromWhebhookObject(request.body);
         if(textMessage === null  || textMessage === '')
         {
-            //console.log(request.body);
+            console.log('no se pudo procesar el mensaje');
             res.sendStatus(200);
         }
         else
