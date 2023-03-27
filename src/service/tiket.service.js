@@ -1,9 +1,28 @@
 const { tikets_states } = require("../constants/tikets.constants");
 const Tiket = require("../model/tiket.model");
 
+module.exports.getTiket = getTiket;
 module.exports.getTikets = getTikets;
 module.exports.verifyTiket = verifyTiket;
 module.exports.updateTiket = updateTiket;
+
+function getTiket(id) {
+  let prommise = new Promise((resolve, reject) => {
+    try {
+      Tiket.findById(id).exec()
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+
+  return prommise;
+}
 
 function getTikets(assistantId, fromDate, state) {
   let prommise = new Promise((resolve, reject) => {

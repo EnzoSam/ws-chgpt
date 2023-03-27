@@ -31,7 +31,9 @@ var controller = {
         {
           wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
           wName = WsService.getProfileNameFromWhebhookObject(request.body);
-          if(wID && wID != '')
+          console.log('wID ' + wID);
+          console.log('wName ' + wName);
+          if(wID && wID != null && wID != '')
             TiketService.verifyTiket(wID,wName,textMessage);
           
           res.sendStatus(200);

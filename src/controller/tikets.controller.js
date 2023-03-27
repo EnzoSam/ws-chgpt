@@ -14,6 +14,18 @@ var controller = {
         res.status(500).send(error);
       });
   },
+  getTiket: function (req, res) {    
+    let id = req.params.id;
+    TiketService.getTiket(id).
+    then(data=>
+      {
+        res.status(200).send(data);
+      })
+      .catch(error =>{
+        console.log(error);
+        res.status(500).send(error);
+      });
+  },  
   update: function (req, res) {    
     TiketService.updateTiket(req.body).
     then(data=>
