@@ -101,10 +101,13 @@ function verifyTiket(whatsappId, customeName, message) {
 function updateTiket(params) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Tiket.findOneAndUpdate(params._id, params, (err, data) => {
-        if (err) reject(err);
-        else resolve(data);
-      });
+      Tiket.findOneAndUpdate(params._id, params).then(data => {
+        resolve(data);
+      }).catch(err=>
+        {
+          reject(err);
+        }
+        );
     } catch (ex) {
       reject(ex);
     }
