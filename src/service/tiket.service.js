@@ -32,6 +32,7 @@ function getTikets(assistantId, fromDate, state) {
       if (fromDate && fromDate !== undefined)
         query = query.where("createdAt").gte(fromDate);
 
+      query = query.populate('assistant');
       query
         .exec()
         .then((data) => {
