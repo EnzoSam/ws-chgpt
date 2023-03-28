@@ -1,10 +1,13 @@
 const { tikets_states } = require("../constants/tikets.constants");
 const Tiket = require("../model/tiket.model");
+const WsService = require('../service/wsService.service');
 
 module.exports.getTiket = getTiket;
 module.exports.getTikets = getTikets;
 module.exports.verifyTiket = verifyTiket;
 module.exports.updateTiket = updateTiket;
+module.exports.assignAssistant = assignAssistant;
+
 
 function getTiket(id) {
   let prommise = new Promise((resolve, reject) => {
@@ -104,6 +107,34 @@ function updateTiket(params) {
     try {
       console.log(params);
       Tiket.findByIdAndUpdate(params._id, params).then(data => {
+        resolve(data);
+      }).catch(err=>
+        {
+          reject(err);
+        }
+        );
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+
+  return prommise;
+}
+
+function assignAssistant(params) {
+  let prommise = new Promise((resolve, reject) => {
+    try {
+      
+      let opt = {
+        assistant:params.idAssistant
+      };
+      Tiket.findByIdAndUpdate(params.idTiket, opt).then(data => {
+        
+        if(req.body.sendGreeting && greeting && greeting != '')
+        {
+          console.log(data);
+          WsService.sendTextMessage(params.greeting,data.customeWhatsappId);
+        }
         resolve(data);
       }).catch(err=>
         {
