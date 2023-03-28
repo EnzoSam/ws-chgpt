@@ -132,9 +132,18 @@ function assignAssistant(params) {
         
         if(params.sendGreeting && params.greeting && params.greeting != '')
         {
-          WsService.sendTextMessage(params.greeting,data.customeWhatsappId);
+          WsService.sendTextMessage(params.greeting,data.customeWhatsappId).then(
+            data=>
+            {
+              resolve({status:'ok'});
+            }
+          ).catch(err =>  reject(err));
         }
-        resolve({status:'ok'});
+        else
+        {
+          resolve({status:'ok'});
+        }
+        
       }).catch(err=>
         {
           reject(err);
