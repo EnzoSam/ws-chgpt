@@ -130,7 +130,7 @@ function assignAssistant(params) {
       };
       Tiket.findByIdAndUpdate(params.idTiket, opt).then(data => {
         
-        if(params.sendGreeting && greeting && greeting != '')
+        if(params.sendGreeting && params.greeting && params.greeting != '')
         {
           console.log(data);
           WsService.sendTextMessage(params.greeting,data.customeWhatsappId);
