@@ -135,7 +135,7 @@ function assignAssistant(params) {
           console.log(data);
           WsService.sendTextMessage(params.greeting,data.customeWhatsappId);
         }
-        resolve(data);
+        resolve({status:'ok'});
       }).catch(err=>
         {
           reject(err);
