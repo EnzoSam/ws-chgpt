@@ -103,7 +103,7 @@ function updateTiket(params) {
   let prommise = new Promise((resolve, reject) => {
     try {
       console.log(params);
-      Tiket.findOneAndUpdate(params._id, params).then(data => {
+      Tiket.findByIdAndUpdate(params._id, params).then(data => {
         resolve(data);
       }).catch(err=>
         {
