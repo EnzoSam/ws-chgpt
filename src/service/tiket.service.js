@@ -132,7 +132,6 @@ function assignAssistant(params) {
         
         if(params.sendGreeting && params.greeting && params.greeting != '')
         {
-          console.log(data);
           WsService.sendTextMessage(params.greeting,data.customeWhatsappId);
         }
         resolve({status:'ok'});
