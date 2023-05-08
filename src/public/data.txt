@@ -1,0 +1,3 @@
+Para generar una factura electronica en Prana Gestion, debe acceder al menu Ventas - Factura Electronica - Factura, seleccionar el cliente y presionar en el boton Generar Comprobante. Tutorial aqui: https://youtu.be/WNT-d83vSuU
+Puede sincronizar las facturas desde Venta - Factura Electronica - Gestionar. Tutorial aqui: https://youtu.be/pXKtj-khPoM
+PC Servidor Ryzen 3 2200  - 8 GB RAM - SSD 480 hoy cuesta : $ 400.000,00
