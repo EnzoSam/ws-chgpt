@@ -58,7 +58,7 @@ var controller = {
         console.log("wName " + wName);
         if (wID && wID != null && wID != "")
         {
-          TiketService.verifyTiket(wID, wName, textMessage).then(async ()=>
+          TiketService.verifyTiket(wID, wName, textMessage).then(async (data)=>
             {
               let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
               let t = 'ni idea';
@@ -75,7 +75,10 @@ var controller = {
                 console.log(error);
               });   
 
-            });
+            }).catch(err=>
+              {
+                console.log(err);
+              });
           }
 
         res.sendStatus(200);
