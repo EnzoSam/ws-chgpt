@@ -81,7 +81,7 @@ exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
   });
   const openai = new OpenAIApi(configuration);
 
-  console.log('getMostSimilarParagraph openai');
+  console.log('getMostSimilarParagraph openai ');
   const response = await openai.createEmbedding({
     model: "text-embedding-ada-002",
     input: text,
