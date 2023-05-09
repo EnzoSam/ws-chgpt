@@ -67,19 +67,22 @@ exports.processEmbeddings = async function () {
 exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
   const paragraphs = await Paragraph.find().exec();
 
+  console.log('getMostSimilarParagraph');
   let mostSimilarParagraph = null;
   let greatestDistance = undefined;
 
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
-  const openai = new OpenAIApi(configuration);
 
+  console.log('getMostSimilarParagraph openai');
+  const openai = new OpenAIApi(configuration);
+  console.log('getMostSimilarParagraph openai createEmbedding');
   const response = await openai.createEmbedding({
     model: "text-embedding-ada-002",
     input: text,
   });
-
+  console.log('getMostSimilarParagraph openai createEmbedding response');
   for (const paragraph of paragraphs) {
 
     const similarity = await cosineSimilarity
@@ -97,6 +100,8 @@ exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
       greatestDistance = similarity;
     }
   }
+
+  console.log('getMostSimilarParagraph openai createEmbedding response mostSimilarParagraph');
 
   return mostSimilarParagraph;
 }

@@ -78,6 +78,7 @@ var controller = {
 
           }
 
+          console.log('resoponse ok 200');
         res.sendStatus(200);
       }
     } catch (ex) {
