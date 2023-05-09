@@ -43,6 +43,7 @@ var controller = {
     }
   },
   processMessagePrana: function (request, res) {
+    console.log('procesando mensaje');
     try {
       let textMessage = WsService.getMessageTextFromWhebhookObject(
         request.body
