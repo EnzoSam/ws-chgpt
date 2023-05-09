@@ -42,15 +42,14 @@ var controller = {
       res.sendStatus(200);
     }
   },
-  processMessagePrana: function (request, res) {
-    console.log('procesando mensaje');
-    console.log(request.body);
+  processMessagePrana: async function (request, res) {
     try {
       let textMessage = WsService.getMessageTextFromWhebhookObject(
         request.body
       );
       if (textMessage === null || textMessage === "") {
         console.log("no se pudo procesar el mensaje");
+        console.log(request.body);
         res.sendStatus(200);
       } else {
         wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
@@ -59,25 +58,22 @@ var controller = {
         console.log("wName " + wName);
         if (wID && wID != null && wID != "")
         {
-          TiketService.verifyTiket(wID, wName, textMessage).then(()=>
+          TiketService.verifyTiket(wID, wName, textMessage).then(async ()=>
             {
-              EmbeddingService.getMostSimilarParagraph(textMessage).then
-              (()=>
-                {
-                  let t = 'ni idea';
-                  if(p && p != undefined && p != null)
-                  {
-                    t = p.text;
-                  }
+              let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
+              let t = 'ni idea';
+              if(p && p != undefined && p != null)
+              {
+                t = p.text;
+              }
 
-                  WsService.sendTextMessage(t, wID)
-                  .then(() => {
-                    console.log("enviado");
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });                  
-                })
+              WsService.sendTextMessage(t, wID)
+              .then(() => {
+                console.log("enviado");
+              })
+              .catch((error) => {
+                console.log(error);
+              });   
 
             });
           }
