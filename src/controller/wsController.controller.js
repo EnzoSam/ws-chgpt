@@ -60,7 +60,7 @@ var controller = {
         {
           TiketService.verifyTiket(wID, wName, textMessage).then(async (data)=>
             {
-              console.log('toket verificado');
+              console.log('toket verificado ' + textMessage);
               let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
               console.log('paso embedding ');
               console.log(p);
