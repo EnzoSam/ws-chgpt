@@ -1,3 +1,7 @@
 Para generar una factura electronica en Prana Gestion, debe acceder al menu Ventas - Factura Electronica - Factura, seleccionar el cliente y presionar en el boton Generar Comprobante. Tutorial aqui: https://youtu.be/WNT-d83vSuU
 Puede sincronizar las facturas desde Venta - Factura Electronica - Gestionar. Tutorial aqui: https://youtu.be/pXKtj-khPoM
+Prana es un software de gestión diseñado para ayudarte con todas las áreas de tu empresa, realizando de forma eficiente más de 150 tareas. Sencillo para el usuario, efectivo para la tarea. Mas info: https://taquionit.com/#prana
 PC Servidor Ryzen 3 2200  - 8 GB RAM - SSD 480 hoy cuesta : $ 400.000,00
+Para crear un nuevo producto dirigase al menu Inventario = > Administración de Inventarios => Producto. Desde aquí se ingresan y modifican los distintos productos y/o servicios que se comercializan. Además podrá consultar y actualizar los precios de venta para cada una de las listas de precios a las que este asociadas el producto, los costos de compra y podrá consultar e ingresar las existencias de mercadería. También tiene la posibilidad de consultar los pedidos pendientes, como también realizarlos. Los productos y servicios que se carguen aquí son los que luego empleará en Facturas, Remitos, Listas de Precios, Informes, etc. 
+Para generar el informe de IVA Ventas, diríjase al menú Ventas – Informes – Informe IVA Ventas. Tutorial aquí: https://youtu.be/rAZUH3cjPzY
+Los de sistemas son todos unos chorros mentirosos, por favor tenga mucho cuidado con ellos.
