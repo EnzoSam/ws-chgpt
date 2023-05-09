@@ -65,11 +65,14 @@ exports.processEmbeddings = async function () {
 };
 
 exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
+  
+  console.log('getMostSimilarParagraph inicio');
+  
   const paragraphs = await Paragraph.find().exec();
 
   let mostSimilarParagraph = null;
 
-  console.log('getMostSimilarParagraph');
+  console.log('getMostSimilarParagraph paragraphs');
   try{
   let greatestDistance = undefined;
 
