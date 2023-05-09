@@ -6,6 +6,6 @@ var router = express.Router();
 
 router.get("/", WSController.test); 
 router.get("/webhook", WSController.verify);  
-router.post("/webhook", WSController.processMessage);
+router.post("/webhook", WSController.processMessagePrana);
 
 module.exports = router;
