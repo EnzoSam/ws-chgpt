@@ -58,8 +58,6 @@ var controller = {
         console.log("wName " + wName);
         if (wID && wID != null && wID != "")
         {
-          TiketService.verifyTiket(wID, wName, textMessage).then(async (data)=>
-            {
               console.log('toket verificado ' + textMessage);
               let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
               console.log('paso embedding ');
@@ -76,12 +74,8 @@ var controller = {
               })
               .catch((error) => {
                 console.log(error);
-              });   
+              });  
 
-            }).catch(err=>
-              {
-                console.log(err);
-              });
           }
 
         res.sendStatus(200);
