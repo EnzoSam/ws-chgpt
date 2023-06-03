@@ -73,17 +73,15 @@ var controller = {
                   WsService.sendTextMessage(data, wID)
                   .then(() => {
                     console.log("enviado");
+                    
+                    res.sendStatus(200);
                   })
                   .catch((error) => {
                     console.log(error);
+                    res.sendStatus(200);
                   });  
                 });
-
-
-          }
-
-          console.log('resoponse ok 200');
-        res.sendStatus(200);
+          }                
       }
     } catch (ex) {
       console.log(ex);
