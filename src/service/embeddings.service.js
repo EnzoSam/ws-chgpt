@@ -19,7 +19,8 @@ exports.processEmbeddings = async function () {
           console.log('fileText');
           console.log(fileText);
     
-          const paragraphs = fileText.split('\n');
+         // const paragraphs = fileText.split('\n');
+         const paragraphs = fileText.split(/\n\s*\n/);         
     
           for (const text of paragraphs) {
     
@@ -27,7 +28,7 @@ exports.processEmbeddings = async function () {
             console.log(text);
             console.log('fin parrafo');            
 
-
+            
             const configuration = new Configuration({
               apiKey: process.env.OPENAI_API_KEY,
             });

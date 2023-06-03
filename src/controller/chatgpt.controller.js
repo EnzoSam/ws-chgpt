@@ -40,9 +40,20 @@ var controller = {
     if(p && p != undefined && p != null)
     {
       t = p.text;
+
+        ChatGPTController.resolveChat(req.params.text, t).then(data=>
+        {
+          console.log("enviado");
+          res.status(200).send(data);
+
+        }).catch(err=>
+          {
+            console.log(err);
+            res.status(500).send(err);
+          });      
     }
 
-    res.status(200).send(t);
+   // res.status(200).send(t);
   }   
 };
 

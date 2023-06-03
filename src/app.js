@@ -15,6 +15,7 @@ var chatGPTRoutes = require('./route/chatgpt.route');
 var helpDeskRoutes = require('./route/helpDesk.route');
 var tiketsRoutes = require('./route/tikets.route');
 var assistantRoutes = require('./route/assistants.route');
+var businessRoutes = require('./route/business.route');
 
 
 app.use((req, res, next) => {
@@ -33,5 +34,6 @@ app.use('/', chatGPTRoutes);
 app.use('/api/help-desk/', helpDeskRoutes);
 app.use('/api/tiket/', tiketsRoutes);
 app.use('/api/assistant/', assistantRoutes);
+app.use('/api/business/', businessRoutes);
 
 module.exports = app;

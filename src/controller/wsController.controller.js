@@ -68,13 +68,17 @@ var controller = {
                 t = p.text;
               }
 
-              WsService.sendTextMessage(t, wID)
-              .then(() => {
-                console.log("enviado");
-              })
-              .catch((error) => {
-                console.log(error);
-              });  
+              ChatGPTController.resolveChat(textMessage, t).then(data=>
+                {
+                  WsService.sendTextMessage(data, wID)
+                  .then(() => {
+                    console.log("enviado");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });  
+                });
+
 
           }
 
