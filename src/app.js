@@ -16,6 +16,7 @@ var helpDeskRoutes = require('./route/helpDesk.route');
 var tiketsRoutes = require('./route/tikets.route');
 var assistantRoutes = require('./route/assistants.route');
 var businessRoutes = require('./route/business.route');
+var contactRoutes = require('./route/contact.route');
 
 
 app.use((req, res, next) => {
@@ -35,5 +36,6 @@ app.use('/api/help-desk/', helpDeskRoutes);
 app.use('/api/tiket/', tiketsRoutes);
 app.use('/api/assistant/', assistantRoutes);
 app.use('/api/business/', businessRoutes);
+app.use('/api/contact/', contactRoutes);
 
 module.exports = app;
