@@ -2,6 +2,8 @@ const { Configuration, OpenAIApi } = require("openai");
 const Paragraph = require("../model/paragraph.model");
 const fs = require("fs");
 
+exports.getMostSimilarParagraph = getMostSimilarParagraph;
+
 exports.processEmbeddings = async function () {
   let prommise = new Promise(async (resolve, reject) => {
     try {
@@ -82,7 +84,7 @@ exports.getMostSimilarText = function getMostSimilarText(text) {
   return prom;
 };
 
-exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
+async function getMostSimilarParagraph(text) {
   console.log("getMostSimilarParagraph inicio");
 
   const paragraphs = await Paragraph.find().exec();
