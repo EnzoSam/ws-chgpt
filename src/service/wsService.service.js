@@ -170,6 +170,7 @@ function processMessagePrana(whatsappObject) {
                       reject({
                         code: 500,
                         message: "Error al procesar embbedings.",
+                        err
                       });
                       return;
                     });
