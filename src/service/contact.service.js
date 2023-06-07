@@ -120,19 +120,19 @@ function verifyContact(reference, name) {
       let refClean = reference.replace('-','').replace('+','').replace(' ', '');
 
       getByRerence(refClean).then((data) => {
-        if (data) {
+        if (data && data !== null && data !== undefined) {
           resolve(data);
           return;
         } else {
           let Contact = new Contact();
-          Contact.name = name;
+          contact.name = name;
           contact.reference = refClean;
           contact.type = MessageContants.types.Whatsapp;
           contact.business = undefined;
           contact.state = GlobalConstants.states.Active;
           save(contact)
-            .then((data) => {
-              resolve(data);
+            .then((saved) => {
+              resolve(saved);
             })
             .catch((err) => {
               reject(err);

@@ -134,6 +134,9 @@ exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
   );
 
   console.log("getMostSimilarParagraph openai response similarity fin");
+
+  let arr =[];
+  arr.push(mostSimilarParagraph);
   return mostSimilarParagraph;
 };
 
