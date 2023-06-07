@@ -147,6 +147,7 @@ function processMessagePrana(whatsappObject) {
                             (messageAssistantSaved=>
                               {
                                 resolve();
+                                return;
                               }
                               ).catch(error=>
                                 {
@@ -154,6 +155,7 @@ function processMessagePrana(whatsappObject) {
                                     code: 500,
                                     message: "Error al guardar mensaje asistente.",
                                   });
+                                  return;
                                 })
 
                           
@@ -161,6 +163,7 @@ function processMessagePrana(whatsappObject) {
                         .catch(error);
                       {
                         reject(error);
+                        return;
                       }
                     })
                     .catch((err) => {
@@ -176,6 +179,7 @@ function processMessagePrana(whatsappObject) {
                     code: 500,
                     message: "No se pudo procesar el mensaje.",
                   });
+                  return;
                 });
             })
             .catch((error) => {
@@ -183,13 +187,16 @@ function processMessagePrana(whatsappObject) {
                 code: 500,
                 message: "No se pudo procesar el contacto.",
               });
+              return;
             });
         })
         .catch((error) => {
           reject({ code: 500, message: "No se pudo procesar el contacto." });
+          return;
         });
     } catch (exc) {
       reject({ code: 500, message: "Error al procesar mensaje." });
+      return;
     }
   });
   return prommise;

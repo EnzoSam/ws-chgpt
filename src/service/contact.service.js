@@ -41,7 +41,7 @@ function get(id) {
 function getByRerence(_reference) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Contact.find({ reference: _reference }).then((data) => {
+      Contact.find({ reference: _reference }).exec().then((data) => {
         resolve(data);
       });
     } catch (ex) {
@@ -116,14 +116,17 @@ function deleteOne(id) {
 function verifyContact(reference, name) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      getByRerence(reference).then((data) => {
+
+      let refClean = reference.replace('-','').replace('+','').replace(' ', '');
+
+      getByRerence(refClean).then((data) => {
         if (data) {
           resolve(data);
           return;
         } else {
           let Contact = new Contact();
           Contact.name = name;
-          contact.reference = reference;
+          contact.reference = refClean;
           contact.type = MessageContants.types.Whatsapp;
           contact.business = undefined;
           contact.state = GlobalConstants.states.Active;
