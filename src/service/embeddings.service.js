@@ -1,34 +1,31 @@
 const { Configuration, OpenAIApi } = require("openai");
-const Paragraph = require('../model/paragraph.model');
-const fs = require('fs');
+const Paragraph = require("../model/paragraph.model");
+const fs = require("fs");
 
 exports.processEmbeddings = async function () {
-  let prommise = new Promise(async(resolve, reject) => {
+  let prommise = new Promise(async (resolve, reject) => {
     try {
-
       console.log("archivo= ");
 
-      let filePath = 'D:\\Desarrollo\\Proyectos\\ChatGPT\\ws-chgpt\\src\\public\\data.txt';
+      let filePath =
+        "D:\\Desarrollo\\Proyectos\\ChatGPT\\ws-chgpt\\src\\public\\data.txt";
 
-      fs.readFile(filePath, 'utf-8', async (err, fileText) => {
-        if(err) {
+      fs.readFile(filePath, "utf-8", async (err, fileText) => {
+        if (err) {
           console.log(err);
-         reject(err);
+          reject(err);
         } else {
-
-          console.log('fileText');
+          console.log("fileText");
           console.log(fileText);
-    
-         // const paragraphs = fileText.split('\n');
-         const paragraphs = fileText.split(/\n\s*\n/);         
-    
-          for (const text of paragraphs) {
-    
-            console.log('inicio parrafo');            
-            console.log(text);
-            console.log('fin parrafo');            
 
-            
+          // const paragraphs = fileText.split('\n');
+          const paragraphs = fileText.split(/\n\s*\n/);
+
+          for (const text of paragraphs) {
+            console.log("inicio parrafo");
+            console.log(text);
+            console.log("fin parrafo");
+
             const configuration = new Configuration({
               apiKey: process.env.OPENAI_API_KEY,
             });
@@ -45,85 +42,102 @@ exports.processEmbeddings = async function () {
               text: text,
               embedding: response.data.data[0].embedding,
             });
-      
+
             // Guardar el párrafo en la base de datos
             await paragraph.save();
-            console.log('paragraph guardado');
+            console.log("paragraph guardado");
           }
-    
-          console.log('archivo procesado ok');
-    
-          resolve();
 
+          console.log("archivo procesado ok");
+
+          resolve();
         }
       });
-
     } catch (ex) {
-        reject(ex);
+      reject(ex);
     }
   });
   return prommise;
 };
 
+exports.getMostSimilarText = function getMostSimilarText(text) {
+  let prom = new Promise(async (resolve, reject) => {
+    try {
+      let paragraphs = await getMostSimilarParagraph(text);
+      if (!paragraphs || paragraphs.length == 0) {
+        resolve("");
+      } else {
+        let textSimilar = "";
+        for (let p of paragraphs) {
+          textSimilar += p.text;
+        }
+
+        resolve(textSimilar);
+      }
+    } catch (exc) {
+      reject(exc);
+    }
+  });
+
+  return prom;
+};
+
 exports.getMostSimilarParagraph = async function getMostSimilarParagraph(text) {
-  
-  console.log('getMostSimilarParagraph inicio');
-  
+  console.log("getMostSimilarParagraph inicio");
+
   const paragraphs = await Paragraph.find().exec();
 
-  console.log('getMostSimilarParagraph');
+  console.log("getMostSimilarParagraph");
   let mostSimilarParagraph = null;
 
-  console.log('getMostSimilarParagraph paragraphs');
-  try{
-  let greatestDistance = undefined;
+  console.log("getMostSimilarParagraph paragraphs");
+  try {
+    let greatestDistance = undefined;
 
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
-  console.log('getMostSimilarParagraph openai');
-  const openai = new OpenAIApi(configuration);
-  console.log('getMostSimilarParagraph openai createEmbedding');
-  const response = await openai.createEmbedding({
-    model: "text-embedding-ada-002",
-    input: text,
-  });
-  console.log('getMostSimilarParagraph openai createEmbedding response');
-  for (const paragraph of paragraphs) {
+    console.log("getMostSimilarParagraph openai");
+    const openai = new OpenAIApi(configuration);
+    console.log("getMostSimilarParagraph openai createEmbedding");
+    const response = await openai.createEmbedding({
+      model: "text-embedding-ada-002",
+      input: text,
+    });
+    console.log("getMostSimilarParagraph openai createEmbedding response");
+    for (const paragraph of paragraphs) {
+      const similarity = await cosineSimilarity(
+        response.data.data[0].embedding,
+        paragraph.embedding
+      );
 
-    const similarity = await cosineSimilarity
-    (response.data.data[0].embedding, paragraph.embedding);
+      console.log("getMostSimilarParagraph openai response similarity");
 
-    console.log('getMostSimilarParagraph openai response similarity');
+      if (greatestDistance === undefined) {
+        mostSimilarParagraph = paragraph;
+        greatestDistance = similarity;
+        continue;
+      }
 
-    if(greatestDistance === undefined)
-    {
-      mostSimilarParagraph = paragraph;
-      greatestDistance = similarity;
-      continue;
+      if (similarity > greatestDistance) {
+        mostSimilarParagraph = paragraph;
+        greatestDistance = similarity;
+      }
     }
-
-    if (similarity > greatestDistance) {
-      mostSimilarParagraph = paragraph;
-      greatestDistance = similarity;
-    }
+  } catch (exc) {
+    console.log(exc);
   }
-}
-catch(exc)
-{
-  console.log(exc);
-}
 
-  console.log('getMostSimilarParagraph openai createEmbedding response mostSimilarParagraph');
+  console.log(
+    "getMostSimilarParagraph openai createEmbedding response mostSimilarParagraph"
+  );
 
-console.log('getMostSimilarParagraph openai response similarity fin');
+  console.log("getMostSimilarParagraph openai response similarity fin");
   return mostSimilarParagraph;
-}
-
+};
 
 function cosineSimilarity(a, b) {
-
   if (a.length !== b.length) {
     return NaN;
   }
@@ -141,4 +155,3 @@ function cosineSimilarity(a, b) {
   const normProduct = Math.sqrt(normA) * Math.sqrt(normB);
   return dotProduct / normProduct;
 }
-

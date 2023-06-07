@@ -1,11 +1,12 @@
 const Message = require("../model/message.model");
+const MessageContants = require("../constants/message.constants");
 
 module.exports.getAll = getAll;
 module.exports.save = save;
 module.exports.update = update;
 module.exports.get = get;
 module.exports.deleteOne = deleteOne;
-
+module.exports.saveMessage = saveMessage;
 
 function getAll() {
   let prommise = new Promise((resolve, reject) => {
@@ -85,6 +86,32 @@ function deleteOne(id) {
   let prommise = new Promise((resolve, reject) => {
     try {
       Message.findOneAndDelete(id)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+
+  return prommise;
+}
+
+function saveMessage(text, contactFrom, contactTo, role, referenceId) {
+  let prommise = new Promise((resolve, reject) => {
+    try {
+      let message = new Message();
+      message.text = text;
+      message.date = Date.now();
+      message.from = contactFrom;
+      message.to = contactTo;
+      message.role = role;
+      message.type = MessageContants.types.Whatsapp;
+      message.referenceId = referenceId;
+      save(message)
         .then((data) => {
           resolve(data);
         })

@@ -2,6 +2,7 @@ const WsService = require("../service/wsService.service");
 const ChatGPTController = require("../service/chatgpt.service");
 const TiketService = require("../service/tiket.service");
 const EmbeddingService = require('../service/embeddings.service');
+const MessageService = require('../service/message.service');
 
 var controller = {
   test: function (req, res) {
@@ -54,10 +55,10 @@ var controller = {
       } else {
         wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
         wName = WsService.getProfileNameFromWhebhookObject(request.body);
-        console.log("wID " + wID);
-        console.log("wName " + wName);
         if (wID && wID != null && wID != "")
         {
+
+
               console.log('toket verificado ' + textMessage);
               let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
               console.log('paso embedding ');
