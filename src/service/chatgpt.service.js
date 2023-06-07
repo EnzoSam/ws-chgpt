@@ -18,7 +18,7 @@ exports.chat = async function (text) {
   }
 };
 
-exports.resolveChat = async function (text, context) {
+exports.resolveChat = function (text, context) {
   let promise = new Promise(async (resolve, reject) => {
     try {
       const configuration = new Configuration({
@@ -40,9 +40,9 @@ exports.resolveChat = async function (text, context) {
           { role: "user", content: text },
         ],
       });
-      return Promise.resolve(completion.data.choices[0].message.content);
+      return resolve(completion.data.choices[0].message.content);
     } catch (ex) {
-      return Promise.reject(ex);
+      return reject(ex);
     }
   });
 

@@ -9,10 +9,13 @@ exports.test = async function () {
   console.log("WSService Ok");
 };
 
-module.exports.getProfileNameFromWhebhookObject = getProfileNameFromWhebhookObject;
-module.exports.getMessageTextFromWhebhookObject = getMessageTextFromWhebhookObject;
+module.exports.getProfileNameFromWhebhookObject =
+  getProfileNameFromWhebhookObject;
+module.exports.getMessageTextFromWhebhookObject =
+  getMessageTextFromWhebhookObject;
 module.exports.sendTextMessage = sendTextMessage;
-module.exports.getFromNumberTextFromWhebhookObject = getFromNumberTextFromWhebhookObject;
+module.exports.getFromNumberTextFromWhebhookObject =
+  getFromNumberTextFromWhebhookObject;
 module.exports.processMessagePrana = processMessagePrana;
 
 function sendTextMessage(messageText, phoneNumber) {
@@ -38,7 +41,7 @@ function sendTextMessage(messageText, phoneNumber) {
   });
 
   return promise;
-};
+}
 
 function getMessageTextFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
@@ -52,7 +55,7 @@ function getMessageTextFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry[0].changes[0].value.messages[0].text) return null;
 
   return whebhookObject.entry[0].changes[0].value.messages[0].text.body;
-};
+}
 
 function getFromNumberTextFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
@@ -64,7 +67,7 @@ function getFromNumberTextFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry[0].changes[0].value.messages) return null;
 
   return whebhookObject.entry[0].changes[0].value.messages[0].from;
-};
+}
 
 function getProfileNameFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
@@ -86,7 +89,7 @@ function getProfileNameFromWhebhookObject(whebhookObject) {
     return null;
 
   return whebhookObject.entry[0].changes[0].value.contacts[0].profile.name;
-};
+}
 
 function getMessageIDFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
@@ -100,7 +103,7 @@ function getMessageIDFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry[0].changes[0].value.messages[0].id) return null;
 
   return whebhookObject.entry[0].changes[0].value.messages[0].id;
-};
+}
 
 function processMessagePrana(whatsappObject) {
   let prommise = new Promise((resolve, reject) => {
@@ -133,33 +136,46 @@ function processMessagePrana(whatsappObject) {
                 contact,
                 contactSender,
                 GPTConstants.roles.user,
-                wMessageID,
+                wMessageID
               )
                 .then((messageSaved) => {
                   EmbeddingService.getMostSimilarText(textMessage)
                     .then((similarTextData) => {
-                      sendTextMessage(similarTextData, wID)
-                        .then(() => {
-
-                          MessageService.saveMessage
-                            (similarTextData, contactSender,
-                              contact, GPTConstants.roles.assistant, '').then
-                            (messageAssistantSaved => {
-                              resolve();
-                              return;
-                            }
-                            ).catch(error => {
-                              reject({
-                                code: 500,
-                                message: "Error al guardar mensaje asistente.",
-                              });
-                              return;
+                      ChatGPTService.resolveChat(textMessage, similarTextData)
+                        .then((assistantResponseText) => {
+                          sendTextMessage(assistantResponseText, wID)
+                            .then(() => {
+                              MessageService.saveMessage(
+                                assistantResponseText,
+                                contactSender,
+                                contact,
+                                GPTConstants.roles.assistant,
+                                ""
+                              )
+                                .then((messageAssistantSaved) => {
+                                  resolve();
+                                  return;
+                                })
+                                .catch((error) => {
+                                  reject({
+                                    code: 500,
+                                    message:
+                                      "Error al guardar mensaje asistente.",
+                                  });
+                                  return;
+                                });
                             })
-
-
+                            .catch((error) => {
+                              reject(error);
+                              return;
+                            });
                         })
-                        .catch(error => {
-                          reject(error);
+                        .catch((error) => {
+                          reject({
+                            code: 500,
+                            message: "Error GPT.",
+                            error,
+                          });
                           return;
                         });
                     })
@@ -167,7 +183,7 @@ function processMessagePrana(whatsappObject) {
                       reject({
                         code: 500,
                         message: "Error al procesar embbedings.",
-                        err
+                        err,
                       });
                       return;
                     });
