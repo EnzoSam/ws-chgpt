@@ -55,8 +55,8 @@ function getByRerence(_reference) {
 function save(params) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      let Contact = new Contact();
-      Contact.name = params.name;
+      let contact = new Contact();
+      contact.name = params.name;
       contact.reference = params.reference;
       contact.type = params.type;
       contact.business = params.business;
@@ -124,7 +124,7 @@ function verifyContact(reference, name) {
           resolve(data);
           return;
         } else {
-          let Contact = new Contact();
+          let contact = new Contact();
           contact.name = name;
           contact.reference = refClean;
           contact.type = MessageContants.types.Whatsapp;
