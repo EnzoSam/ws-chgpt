@@ -1,5 +1,7 @@
 const { Configuration, OpenAIApi } = require("openai");
 const Paragraph = require("../model/paragraph.model");
+const IAModelService = require("../service/iamodel.service");
+const ParagraphService = require("../service/paragraph.service");
 const fs = require("fs");
 
 exports.getMostSimilarParagraph = getMostSimilarParagraph;
@@ -7,8 +9,6 @@ exports.getMostSimilarParagraph = getMostSimilarParagraph;
 exports.processEmbeddings = async function () {
   let prommise = new Promise(async (resolve, reject) => {
     try {
-      console.log("archivo= ");
-
       let filePath =
         "D:\\Desarrollo\\Proyectos\\ChatGPT\\ws-chgpt\\src\\public\\data.txt";
 
@@ -17,42 +17,36 @@ exports.processEmbeddings = async function () {
           console.log(err);
           reject(err);
         } else {
-          console.log("fileText");
-          console.log(fileText);
+          IAModelService.getByVersion(process.env.IA_VERSION)
+            .then(async (iamodel) => {
+              // const paragraphs = fileText.split('\n');
+              const paragraphs = fileText.split(/\n\s*\n/);
 
-          // const paragraphs = fileText.split('\n');
-          const paragraphs = fileText.split(/\n\s*\n/);
+              for (const text of paragraphs) {
+                const configuration = new Configuration({
+                  apiKey: process.env.OPENAI_API_KEY,
+                });
+                const openai = new OpenAIApi(configuration);
 
-          for (const text of paragraphs) {
-            console.log("inicio parrafo");
-            console.log(text);
-            console.log("fin parrafo");
+                const response = await openai.createEmbedding({
+                  model: "text-embedding-ada-002",
+                  input: text,
+                });
 
-            const configuration = new Configuration({
-              apiKey: process.env.OPENAI_API_KEY,
+                const paragraph = new Paragraph({
+                  text: text,
+                  embedding: response.data.data[0].embedding,
+                  model:iamodel
+                });
+
+                // Guardar el párrafo en la base de datos
+                await paragraph.save();
+              }
+              resolve();
+            })
+            .catch((ex) => {
+              reject(ex);
             });
-            const openai = new OpenAIApi(configuration);
-
-            const response = await openai.createEmbedding({
-              model: "text-embedding-ada-002",
-              input: text,
-            });
-
-            console.log(response.data.data[0]);
-
-            const paragraph = new Paragraph({
-              text: text,
-              embedding: response.data.data[0].embedding,
-            });
-
-            // Guardar el párrafo en la base de datos
-            await paragraph.save();
-            console.log("paragraph guardado");
-          }
-
-          console.log("archivo procesado ok");
-
-          resolve();
         }
       });
     } catch (ex) {
@@ -87,7 +81,8 @@ exports.getMostSimilarText = function getMostSimilarText(text) {
 async function getMostSimilarParagraph(text) {
   console.log("getMostSimilarParagraph inicio");
 
-  const paragraphs = await Paragraph.find().exec();
+  const paragraphs = 
+    await ParagraphService.getByModelVersion(process.env.IA_VERSION);
 
   console.log("getMostSimilarParagraph");
   let mostSimilarParagraph = null;
@@ -128,7 +123,7 @@ async function getMostSimilarParagraph(text) {
       }
     }
   } catch (exc) {
-    console.log(exc);    
+    console.log(exc);
   }
 
   console.log(
@@ -137,13 +132,16 @@ async function getMostSimilarParagraph(text) {
 
   console.log("getMostSimilarParagraph openai response similarity fin");
 
-  let arr =[];
-  if(mostSimilarParagraph && mostSimilarParagraph !== null &&
-    mostSimilarParagraph !== undefined)
+  let arr = [];
+  if (
+    mostSimilarParagraph &&
+    mostSimilarParagraph !== null &&
+    mostSimilarParagraph !== undefined
+  )
     arr.push(mostSimilarParagraph);
-    
+
   return arr;
-};
+}
 
 function cosineSimilarity(a, b) {
   if (a.length !== b.length) {
