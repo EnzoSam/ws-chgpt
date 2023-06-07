@@ -41,9 +41,7 @@ function get(id) {
 function getByRerence(_reference) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Contact.find({ reference: _reference }).exec().then((data) => {
-        console.log('getByRerence');
-        console.log(data);
+      Contact.findOne({ reference: _reference }).exec().then((data) => {
         resolve(data);
       });
     } catch (ex) {

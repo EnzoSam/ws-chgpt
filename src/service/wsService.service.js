@@ -119,8 +119,8 @@ function processMessagePrana(whatsappObject) {
       let wName = getProfileNameFromWhebhookObject(whatsappObject);
       let wMessageID = getMessageIDFromWhebhookObject(whatsappObject);
 
-      if (!wID || (wID == null && wID === "")) {
-        reject({ code: 200, message: "No se pudo obtener el contacto." });
+      if (!wID || wID == null || wID === "") {
+        reject({ code: 500, message: "No se pudo obtener el contacto." });
         return;
       }
 
