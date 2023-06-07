@@ -1,8 +1,8 @@
 const WsService = require("../service/wsService.service");
 const ChatGPTController = require("../service/chatgpt.service");
 const TiketService = require("../service/tiket.service");
-const EmbeddingService = require('../service/embeddings.service');
-const MessageService = require('../service/message.service');
+const EmbeddingService = require("../service/embeddings.service");
+const MessageService = require("../service/message.service");
 
 var controller = {
   test: function (req, res) {
@@ -45,45 +45,13 @@ var controller = {
   },
   processMessagePrana: async function (request, res) {
     try {
-      let textMessage = WsService.getMessageTextFromWhebhookObject(
-        request.body
-      );
-      if (textMessage === null || textMessage === "") {
-        console.log("no se pudo procesar el mensaje");
-        console.log(request.body);
-        res.sendStatus(200);
-      } else {
-        wID = WsService.getFromNumberTextFromWhebhookObject(request.body);
-        wName = WsService.getProfileNameFromWhebhookObject(request.body);
-        if (wID && wID != null && wID != "")
-        {
-
-
-              console.log('toket verificado ' + textMessage);
-              let p = await EmbeddingService.getMostSimilarParagraph(textMessage);
-              console.log('paso embedding ');
-              console.log(p);
-              let t = 'ni idea';
-              if(p && p != undefined && p != null)
-              {
-                t = p.text;
-              }
-
-              ChatGPTController.resolveChat(textMessage, t).then(data=>
-                {
-                  WsService.sendTextMessage(data, wID)
-                  .then(() => {
-                    console.log("enviado");
-                    
-                    res.sendStatus(200);
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                    res.sendStatus(200);
-                  });  
-                });
-          }                
-      }
+      WsService.processMessagePrana(request.body)
+        .then((data) => {
+          res.sendStatus(200);
+        })
+        .catch((error) => {
+          res.sendStatus(200);
+        });
     } catch (ex) {
       console.log(ex);
       res.sendStatus(200);
