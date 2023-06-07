@@ -47,9 +47,13 @@ var controller = {
     try {
       WsService.processMessagePrana(request.body)
         .then((data) => {
+          console.log('ok processMessagePrana');
+          console.log(data);
           res.sendStatus(200);
         })
         .catch((error) => {
+          console.log('error processMessagePrana');
+          console.log(error);
           res.sendStatus(200);
         });
     } catch (ex) {
