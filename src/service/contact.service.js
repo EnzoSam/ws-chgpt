@@ -42,6 +42,8 @@ function getByRerence(_reference) {
   let prommise = new Promise((resolve, reject) => {
     try {
       Contact.find({ reference: _reference }).exec().then((data) => {
+        console.log('getByRerence');
+        console.log(data);
         resolve(data);
       });
     } catch (ex) {
@@ -114,16 +116,21 @@ function deleteOne(id) {
 }
 
 function verifyContact(reference, name) {
+  console.log('verifyContact');
   let prommise = new Promise((resolve, reject) => {
     try {
 
       let refClean = reference.replace('-','').replace('+','').replace(' ', '');
-
+      console.log(refClean);
+      console.log(name);
       getByRerence(refClean).then((data) => {
         if (data && data !== null && data !== undefined) {
+          console.log(data);
           resolve(data);
           return;
         } else {
+
+          console.log('creando nuevo contacto');
           let contact = new Contact();
           contact.name = name;
           contact.reference = refClean;
@@ -132,16 +139,20 @@ function verifyContact(reference, name) {
           contact.state = GlobalConstants.states.Active;
           save(contact)
             .then((saved) => {
+              console.log('contacto guardado');
               resolve(saved);
             })
             .catch((err) => {
               reject(err);
+              console.log(ex);
             });
         }
       }).catch(ex=>{
         reject(ex);
+        console.log(ex);
       });
     } catch (ex) {
+      console.log(ex);
       reject(ex);
     }
   });
