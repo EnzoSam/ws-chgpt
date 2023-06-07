@@ -128,7 +128,7 @@ async function getMostSimilarParagraph(text) {
       }
     }
   } catch (exc) {
-    console.log(exc);
+    console.log(exc);    
   }
 
   console.log(
@@ -138,7 +138,10 @@ async function getMostSimilarParagraph(text) {
   console.log("getMostSimilarParagraph openai response similarity fin");
 
   let arr =[];
-  arr.push(mostSimilarParagraph);
+  if(mostSimilarParagraph && mostSimilarParagraph !== null &&
+    mostSimilarParagraph !== undefined)
+    arr.push(mostSimilarParagraph);
+    
   return arr;
 };
 
