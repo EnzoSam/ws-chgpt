@@ -12,10 +12,10 @@ exports.test = async function () {
 module.exports.getProfileNameFromWhebhookObject = getProfileNameFromWhebhookObject;
 module.exports.getMessageTextFromWhebhookObject = getMessageTextFromWhebhookObject;
 module.exports.sendTextMessage = sendTextMessage;
-module.exports.getFromNumberTextFromWhebhookObject =getFromNumberTextFromWhebhookObject;
+module.exports.getFromNumberTextFromWhebhookObject = getFromNumberTextFromWhebhookObject;
 module.exports.processMessagePrana = processMessagePrana;
 
-function sendTextMessage (messageText, phoneNumber) {
+function sendTextMessage(messageText, phoneNumber) {
   let promise = new Promise((resolve, reject) => {
     try {
       console.log(messageText);
@@ -40,7 +40,7 @@ function sendTextMessage (messageText, phoneNumber) {
   return promise;
 };
 
-function getMessageTextFromWhebhookObject (whebhookObject) {
+function getMessageTextFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
 
   if (!whebhookObject.entry[0].changes) return null;
@@ -66,7 +66,7 @@ function getFromNumberTextFromWhebhookObject(whebhookObject) {
   return whebhookObject.entry[0].changes[0].value.messages[0].from;
 };
 
-function getProfileNameFromWhebhookObject (whebhookObject) {
+function getProfileNameFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
 
   if (!whebhookObject.entry[0].changes) return null;
@@ -88,7 +88,7 @@ function getProfileNameFromWhebhookObject (whebhookObject) {
   return whebhookObject.entry[0].changes[0].value.contacts[0].profile.name;
 };
 
-function getMessageIDFromWhebhookObject (whebhookObject) {
+function getMessageIDFromWhebhookObject(whebhookObject) {
   if (!whebhookObject.entry) return null;
 
   if (!whebhookObject.entry[0].changes) return null;
@@ -133,7 +133,7 @@ function processMessagePrana(whatsappObject) {
                 contact,
                 contactSender,
                 GPTConstants.roles.user,
-                wMessageID,                
+                wMessageID,
               )
                 .then((messageSaved) => {
                   EmbeddingService.getMostSimilarText(textMessage)
@@ -142,29 +142,26 @@ function processMessagePrana(whatsappObject) {
                         .then(() => {
 
                           MessageService.saveMessage
-                          (similarTextData, contactSender,
-                            contact,GPTConstants.roles.assistant,'').then
-                            (messageAssistantSaved=>
-                              {
-                                resolve();
-                                return;
-                              }
-                              ).catch(error=>
-                                {
-                                  reject({
-                                    code: 500,
-                                    message: "Error al guardar mensaje asistente.",
-                                  });
-                                  return;
-                                })
+                            (similarTextData, contactSender,
+                              contact, GPTConstants.roles.assistant, '').then
+                            (messageAssistantSaved => {
+                              resolve();
+                              return;
+                            }
+                            ).catch(error => {
+                              reject({
+                                code: 500,
+                                message: "Error al guardar mensaje asistente.",
+                              });
+                              return;
+                            })
 
-                          
+
                         })
-                        .catch(error=>
-                      {
-                        reject(error);
-                        return;
-                      });
+                        .catch(error => {
+                          reject(error);
+                          return;
+                        });
                     })
                     .catch((err) => {
                       reject({
