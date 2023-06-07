@@ -160,11 +160,11 @@ function processMessagePrana(whatsappObject) {
 
                           
                         })
-                        .catch(error);
+                        .catch(error=>
                       {
                         reject(error);
                         return;
-                      }
+                      });
                     })
                     .catch((err) => {
                       reject({
