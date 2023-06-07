@@ -139,7 +139,7 @@ async function getMostSimilarParagraph(text) {
 
   let arr =[];
   arr.push(mostSimilarParagraph);
-  return mostSimilarParagraph;
+  return arr;
 };
 
 function cosineSimilarity(a, b) {
