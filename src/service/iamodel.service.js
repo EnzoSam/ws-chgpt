@@ -41,12 +41,12 @@ function get(id) {
 function getByVersion(_version) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      IAModel.findOne({version:_version}).exec().then((data) => {
+      IAModel.findOne({version:+_version}).exec().then((data) => {
         
         if(!data || data === null || data === undefined)
         {
           let model = new IAModel();
-          model.version = _version;
+          model.version = +_version;
           model.state = GlobalConstants.states.Active;
           model.name = 'Modelo ' + _version;
           save(model).then(newSaved=>{

@@ -40,8 +40,7 @@ function getByModelVersion(_version) {
   let prommise = new Promise((resolve, reject) => {
     try {
       Paragraph.find({
-         'model.version':
-+_version }).exec().then((data) => {
+         'model.version': +_version }).exec().then((data) => {
         resolve(data);
       });
     } catch (ex) {
