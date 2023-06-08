@@ -3,6 +3,7 @@ const Paragraph = require("../model/paragraph.model");
 const IAModelService = require("../service/iamodel.service");
 const ParagraphService = require("../service/paragraph.service");
 const fs = require("fs");
+const iamodelModel = require("../model/iamodel.model");
 
 exports.getMostSimilarParagraph = getMostSimilarParagraph;
 
@@ -82,6 +83,7 @@ async function getMostSimilarParagraph(text) {
 
   const iaModel = 
     await IAModelService.getByVersion(process.env.IA_VERSION);
+  console.log(iamodelModel);
   const paragraphs = 
     await ParagraphService.getByModel(iaModel);
   console.log('cantidad parrafos = ' + paragraphs.length);
