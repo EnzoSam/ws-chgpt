@@ -41,7 +41,7 @@ function getByModelVersion(_version) {
     try {
       Paragraph.find({
          'model.version':
-_version }).exec().then((data) => {
++_version }).exec().then((data) => {
         resolve(data);
       });
     } catch (ex) {
