@@ -36,15 +36,12 @@ function get(id) {
   return prommise;
 }
 
-function getByModelVersion(_version) {
+function getByModel(_model) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Paragraph.find()
-      .populate({
-        path: 'model',
-        match: {
-          version: +_version
-        }}).exec().then((data) => {
+
+      
+      Paragraph.find({model: _model}).exec().then((data) => {
         console.log('parrafos = ' + data.length);
         resolve(data);
       });

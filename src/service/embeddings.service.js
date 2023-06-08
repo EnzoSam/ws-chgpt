@@ -80,8 +80,10 @@ exports.getMostSimilarText = function getMostSimilarText(text) {
 
 async function getMostSimilarParagraph(text) {
 
+  const iaModel = 
+    await IAModelService.getByVersion(process.env.IA_VERSION);
   const paragraphs = 
-    await ParagraphService.getByModelVersion(process.env.IA_VERSION);
+    await ParagraphService.getByModelVersion(iaModel);
   console.log('cantidad parrafos = ' + paragraphs.length);
 
   let mostSimilarParagraph = null;
