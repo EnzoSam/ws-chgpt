@@ -37,7 +37,7 @@ exports.processEmbeddings = async function () {
                 const paragraph = new Paragraph({
                   text: text,
                   embedding: response.data.data[0].embedding,
-                  model:iamodel
+                  model: iamodel,
                 });
 
                 // Guardar el párrafo en la base de datos
@@ -80,17 +80,14 @@ exports.getMostSimilarText = function getMostSimilarText(text) {
 };
 
 async function getMostSimilarParagraph(text) {
-
-  const iaModel = 
-    await IAModelService.getByVersion(process.env.IA_VERSION);
-  console.log(iamodelModel);
-  const paragraphs = 
-    await ParagraphService.getByModel(iaModel);
-  console.log('cantidad parrafos = ' + paragraphs.length);
-
   let mostSimilarParagraph = null;
 
   try {
+    const iaModel = await IAModelService.getByVersion(process.env.IA_VERSION);
+    console.log(iamodelModel);
+    const paragraphs = await ParagraphService.getByModel(iaModel);
+    console.log("cantidad parrafos = " + paragraphs.length);
+
     let greatestDistance = undefined;
 
     const configuration = new Configuration({
@@ -134,8 +131,7 @@ async function getMostSimilarParagraph(text) {
     mostSimilarParagraph &&
     mostSimilarParagraph !== null &&
     mostSimilarParagraph !== undefined
-  )
-  {
+  ) {
     arr.push(mostSimilarParagraph);
     console.log(mostSimilarParagraph);
   }
