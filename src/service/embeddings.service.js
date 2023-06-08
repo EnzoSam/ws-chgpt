@@ -22,13 +22,17 @@ exports.processEmbeddings = async function () {
             .then(async (iamodel) => {
               // const paragraphs = fileText.split('\n');
               const paragraphs = fileText.split(/\n\s*\n/);
+              
+              const configuration = new Configuration({
+                apiKey: process.env.OPENAI_API_KEY,
+              });
+              const openai = new OpenAIApi(configuration);
 
               for (const text of paragraphs) {
-                const configuration = new Configuration({
-                  apiKey: process.env.OPENAI_API_KEY,
-                });
-                const openai = new OpenAIApi(configuration);
 
+                if(text.startsWith('//'))
+                  continue;
+                  
                 const response = await openai.createEmbedding({
                   model: "text-embedding-ada-002",
                   input: text,
@@ -84,7 +88,6 @@ async function getMostSimilarParagraph(text) {
 
   try {
     const iaModel = await IAModelService.getByVersion(process.env.IA_VERSION);
-    console.log(iaModel);
     
     const paragraphs = await ParagraphService.getByModel(iaModel);
     console.log("cantidad parrafos = " + paragraphs.length);
