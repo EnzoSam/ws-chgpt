@@ -26,6 +26,18 @@ var controller = {
         res.status(500).send(error);
       });
   },  
+  getContactMessages: function (req, res) {    
+
+    MessageService.getContactMessages(req.params.id).
+    then(data=>
+      {
+        res.status(200).send(data);
+      })
+      .catch(error =>{
+        console.log(error);
+        res.status(500).send(error);
+      });
+  },  
   save: function (req, res) {    
     MessageService.save(req.body).
     then(data=>

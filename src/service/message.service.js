@@ -1,5 +1,6 @@
 const Message = require("../model/message.model");
 const MessageContants = require("../constants/message.constants");
+const ContactService = require("../service/contact.service");
 
 module.exports.getAll = getAll;
 module.exports.save = save;
@@ -7,6 +8,7 @@ module.exports.update = update;
 module.exports.get = get;
 module.exports.deleteOne = deleteOne;
 module.exports.saveMessage = saveMessage;
+module.exports.getContactMessages = getContactMessages;
 
 function getAll() {
   let prommise = new Promise((resolve, reject) => {
@@ -22,13 +24,33 @@ function getAll() {
   return prommise;
 }
 
-
 function get(id) {
   let prommise = new Promise((resolve, reject) => {
     try {
       Message.findById(id).then((data) => {
         resolve(data);
       });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+
+  return prommise;
+}
+
+function getContactMessages(contactId) {
+  let prommise = new Promise((resolve, reject) => {
+    try {
+      ContactService.get(contactId)
+        .then((_contact) => {
+          Message.find({ contact: _contact }).then((data) => {
+            resolve(data);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
     } catch (ex) {
       reject(ex);
     }

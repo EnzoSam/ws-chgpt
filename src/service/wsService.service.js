@@ -2,6 +2,7 @@ const { sendMessage, getTextMessageInput } = require("./whatsappHelper");
 const EmbeddingService = require("../service/embeddings.service");
 const ChatGPTService = require("../service/chatgpt.service");
 const ContactService = require("../service/contact.service");
+const TiketService = require("../service/tiket.service");
 const MessageService = require("../service/message.service");
 const GPTConstants = require("../constants/gpt.constant");
 
@@ -137,64 +138,75 @@ function processMessagePrana(whatsappObject) {
                 contactSender,
                 GPTConstants.roles.user,
                 wMessageID
-              )
-                .then((messageSaved) => {
-                  EmbeddingService.getMostSimilarText(textMessage)
-                    .then((similarTextData) => {
-                      ChatGPTService.resolveChat(textMessage, similarTextData)
-                        .then((assistantResponseText) => {
-                          sendTextMessage(assistantResponseText, wID)
-                            .then(() => {
-                              MessageService.saveMessage(
-                                assistantResponseText,
-                                contactSender,
-                                contact,
-                                GPTConstants.roles.assistant,
-                                ""
-                              )
-                                .then((messageAssistantSaved) => {
-                                  resolve();
-                                  return;
-                                })
-                                .catch((error) => {
-                                  reject({
-                                    code: 500,
-                                    message:
-                                      "Error al guardar mensaje asistente.",
+              ).then(messageSaved=>
+                {
+                  TiketService.verifyTiket(wID,wName,textMessage)
+                  .then((tiketSaved) => {
+                    EmbeddingService.getMostSimilarText(textMessage)
+                      .then((similarTextData) => {
+                        ChatGPTService.resolveChat(textMessage, similarTextData)
+                          .then((assistantResponseText) => {
+                            sendTextMessage(assistantResponseText, wID)
+                              .then(() => {
+                                MessageService.saveMessage(
+                                  assistantResponseText,
+                                  contactSender,
+                                  contact,
+                                  GPTConstants.roles.assistant,
+                                  ""
+                                )
+                                  .then((messageAssistantSaved) => {
+                                    resolve();
+                                    return;
+                                  })
+                                  .catch((error) => {
+                                    reject({
+                                      code: 500,
+                                      message:
+                                        "Error al guardar mensaje asistente.",
+                                    });
+                                    return;
                                   });
-                                  return;
-                                });
-                            })
-                            .catch((error) => {
-                              reject(error);
-                              return;
+                              })
+                              .catch((error) => {
+                                reject(error);
+                                return;
+                              });
+                          })
+                          .catch((error) => {
+                            reject({
+                              code: 500,
+                              message: "Error GPT.",
+                              error,
                             });
-                        })
-                        .catch((error) => {
-                          reject({
-                            code: 500,
-                            message: "Error GPT.",
-                            error,
+                            return;
                           });
-                          return;
+                      })
+                      .catch((err) => {
+                        reject({
+                          code: 500,
+                          message: "Error al procesar embbedings.",
+                          err,
                         });
-                    })
-                    .catch((err) => {
-                      reject({
-                        code: 500,
-                        message: "Error al procesar embbedings.",
-                        err,
+                        return;
                       });
-                      return;
+                  })
+                  .catch((error) => {
+                    reject({
+                      code: 500,
+                      message: "No se pudo procesar el mensaje.",
                     });
-                })
-                .catch((error) => {
-                  reject({
-                    code: 500,
-                    message: "No se pudo procesar el mensaje.",
+                    return;
                   });
-                  return;
-                });
+                }).catch(error=>
+                  {
+                    reject({
+                      code: 500,
+                      message: "Error al verificar tiket.",
+                    });
+                    return;                    
+                  })
+
             })
             .catch((error) => {
               reject({
