@@ -5,7 +5,7 @@ module.exports.save = save;
 module.exports.update = update;
 module.exports.get = get;
 module.exports.deleteOne = deleteOne;
-module.exports.getByModelVersion = getByModelVersion;
+module.exports.getByModel = getByModel;
 
 function getAll() {
   let prommise = new Promise((resolve, reject) => {
