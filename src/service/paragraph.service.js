@@ -39,8 +39,12 @@ function get(id) {
 function getByModelVersion(_version) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Paragraph.find({ 'model.version': +_version })
-      .populate('model').exec().then((data) => {
+      Paragraph.find()
+      .populate({
+        path: 'model',
+        match: {
+          version: +_version
+        }}).exec().then((data) => {
         console.log('parrafos = ' + data.length);
         resolve(data);
       });
