@@ -85,6 +85,8 @@ async function getMostSimilarParagraph(text) {
   try {
     const iaModel = await IAModelService.getByVersion(process.env.IA_VERSION);
     console.log(iamodelModel);
+
+    /*
     const paragraphs = await ParagraphService.getByModel(iaModel);
     console.log("cantidad parrafos = " + paragraphs.length);
 
@@ -115,7 +117,8 @@ async function getMostSimilarParagraph(text) {
         mostSimilarParagraph = paragraph;
         greatestDistance = similarity;
       }
-    }
+      
+    }*/
   } catch (exc) {
     console.log(exc);
   }
