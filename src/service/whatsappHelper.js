@@ -11,7 +11,7 @@ function sendMessage(data) {
     data: data
   };
 
-  return axios(config)
+  return axios(config);
 }
 
 function getTextMessageInput(recipient, text) {

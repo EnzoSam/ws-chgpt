@@ -19,19 +19,52 @@ module.exports.getFromNumberTextFromWhebhookObject =
   getFromNumberTextFromWhebhookObject;
 module.exports.processMessagePrana = processMessagePrana;
 
-function sendTextMessage(messageText, phoneNumber) {
+function sendTextMessage(messageText, phoneNumber, contactName) {
   let promise = new Promise((resolve, reject) => {
     try {
       console.log(messageText);
       if (messageText === null || messageText === "") {
         resolve();
       } else {
-        var data = getTextMessageInput(phoneNumber, messageText);
+        let data = getTextMessageInput(phoneNumber, messageText);
         sendMessage(data)
-          .then(function (response) {
-            resolve();
+          .then((r) => {
+            if (r && r.status == 200) {
+              ContactService.verifyContact(phoneNumber, contactName)
+                .then(contact=> {
+                  ContactService.verifyContact(
+                    process.env.WHATSAPP_SENDER_NUMBER,
+                    process.env.WHATSAPP_SENDER_NAME
+                  )
+                    .then(contactSender => {
+                      MessageService.saveMessage(
+                        messageText,
+                        contactSender,
+                        contact,
+                        GPTConstants.roles.user,
+                        ''
+                      )
+                        .then(messageSaved=> {
+                          resolve();
+                        })
+                        .catch((error) => 
+                        {
+                          console.log(error);
+                          reject(error);
+                        });
+                    })
+                    .catch((error) => 
+                    {
+                      console.log(error);
+                      reject(error);
+                    });
+                })
+                .catch((error) => {});
+            } else {
+              reject({ code: 500, message: "Error al enviar ws." });
+            }
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
             reject(error);
           });
@@ -138,75 +171,77 @@ function processMessagePrana(whatsappObject) {
                 contactSender,
                 GPTConstants.roles.user,
                 wMessageID
-              ).then(messageSaved=>
-                {
-                  TiketService.verifyTiket(wID,wName,textMessage)
-                  .then((tiketSaved) => {
-                    EmbeddingService.getMostSimilarText(textMessage)
-                      .then((similarTextData) => {
-                        ChatGPTService.resolveChat(textMessage, similarTextData)
-                          .then((assistantResponseText) => {
-                            sendTextMessage(assistantResponseText, wID)
-                              .then(() => {
-                                MessageService.saveMessage(
-                                  assistantResponseText,
-                                  contactSender,
-                                  contact,
-                                  GPTConstants.roles.assistant,
-                                  ""
-                                )
-                                  .then((messageAssistantSaved) => {
-                                    resolve();
-                                    return;
-                                  })
-                                  .catch((error) => {
-                                    reject({
-                                      code: 500,
-                                      message:
-                                        "Error al guardar mensaje asistente.",
+              )
+                .then((messageSaved) => {
+                  TiketService.verifyTiket(wID, wName, textMessage)
+                    .then((tiketSaved) => {
+                      EmbeddingService.getMostSimilarText(textMessage)
+                        .then((similarTextData) => {
+                          ChatGPTService.resolveChat(
+                            textMessage,
+                            similarTextData
+                          )
+                            .then((assistantResponseText) => {
+                              sendTextMessage(assistantResponseText, wID)
+                                .then(() => {
+                                  MessageService.saveMessage(
+                                    assistantResponseText,
+                                    contactSender,
+                                    contact,
+                                    GPTConstants.roles.assistant,
+                                    ""
+                                  )
+                                    .then((messageAssistantSaved) => {
+                                      resolve();
+                                      return;
+                                    })
+                                    .catch((error) => {
+                                      reject({
+                                        code: 500,
+                                        message:
+                                          "Error al guardar mensaje asistente.",
+                                      });
+                                      return;
                                     });
-                                    return;
-                                  });
-                              })
-                              .catch((error) => {
-                                reject(error);
-                                return;
+                                })
+                                .catch((error) => {
+                                  reject(error);
+                                  return;
+                                });
+                            })
+                            .catch((error) => {
+                              reject({
+                                code: 500,
+                                message: "Error GPT.",
+                                error,
                               });
-                          })
-                          .catch((error) => {
-                            reject({
-                              code: 500,
-                              message: "Error GPT.",
-                              error,
+                              return;
                             });
-                            return;
+                        })
+                        .catch((err) => {
+                          reject({
+                            code: 500,
+                            message: "Error al procesar embbedings.",
+                            err,
                           });
-                      })
-                      .catch((err) => {
-                        reject({
-                          code: 500,
-                          message: "Error al procesar embbedings.",
-                          err,
+                          return;
                         });
-                        return;
+                    })
+                    .catch((error) => {
+                      reject({
+                        code: 500,
+                        message: "No se pudo procesar el mensaje.",
                       });
-                  })
-                  .catch((error) => {
-                    reject({
-                      code: 500,
-                      message: "No se pudo procesar el mensaje.",
+                      return;
                     });
-                    return;
+                })
+                .catch((error) => {
+                  reject({
+                    code: 500,
+                    message: "Error al verificar tiket.",
                   });
-                }).catch(error=>
-                  {
-                    reject({
-                      code: 500,
-                      message: "Error al verificar tiket.",
-                    });
-                    return;                    
-                  })
-
+                  return;
+                });
             })
             .catch((error) => {
               reject({

@@ -1,6 +1,7 @@
 const Message = require("../model/message.model");
 const MessageContants = require("../constants/message.constants");
 const ContactService = require("../service/contact.service");
+const WhatsappService = require("../service/wsService.service");
 
 module.exports.getAll = getAll;
 module.exports.save = save;
@@ -9,6 +10,7 @@ module.exports.get = get;
 module.exports.deleteOne = deleteOne;
 module.exports.saveMessage = saveMessage;
 module.exports.getContactMessages = getContactMessages;
+module.exports.send = send;
 
 function getAll() {
   let prommise = new Promise((resolve, reject) => {
@@ -40,10 +42,17 @@ function get(id) {
 
 function getContactMessages(contactId) {
   let prommise = new Promise((resolve, reject) => {
-    try {
+    try {      
       ContactService.get(contactId)
         .then((_contact) => {
-          Message.find({ contact: _contact }).then((data) => {
+
+          let query =Message.find();
+          query = query.or([{from:_contact}, {to:_contact}]);
+          query = query.sort({date:'desc'});
+          query = query.limit(10);
+          query = query.populate('from');
+          query = query.populate('to');
+          query.exec().then((data) => {
             resolve(data);
           });
         })
@@ -138,7 +147,29 @@ function saveMessage(text, contactFrom, contactTo, role, referenceId) {
           resolve(data);
         })
         .catch((err) => {
+          console.log(err);
           reject(err);
+        });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+
+  return prommise;
+}
+
+function send(params) {
+  let prommise = new Promise((resolve, reject) => {
+    try {
+      WhatsappService.sendTextMessage(params.text, 
+        params.to.reference, params.to.name)
+        .then(data => {
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+          
         });
     } catch (ex) {
       reject(ex);

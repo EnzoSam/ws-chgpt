@@ -18,6 +18,7 @@ var assistantRoutes = require('./route/assistants.route');
 var businessRoutes = require('./route/business.route');
 var contactRoutes = require('./route/contact.route');
 var iaModelRoutes = require('./route/iamodel.route');
+var messageRoutes = require('./route/message.route');
 
 
 app.use((req, res, next) => {
@@ -39,5 +40,6 @@ app.use('/api/assistant/', assistantRoutes);
 app.use('/api/business/', businessRoutes);
 app.use('/api/contact/', contactRoutes);
 app.use('/api/iamodel/', iaModelRoutes);
+app.use('/api/message/', messageRoutes);
 
 module.exports = app;
