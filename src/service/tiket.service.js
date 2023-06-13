@@ -32,7 +32,8 @@ function getTikets(assistantId, fromDate, state) {
   let prommise = new Promise((resolve, reject) => {
     try {
       let query = Tiket.find();
-      if (state && state !== 0) query = query.where("state").equals(state);
+      if (state && state !== undefined) 
+        query = query.where("state").equals(state);
       if (fromDate && fromDate !== undefined)
         query = query.where("createdAt").gte(fromDate);
 
