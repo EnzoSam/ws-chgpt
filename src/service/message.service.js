@@ -53,6 +53,7 @@ function getContactMessages(contactId) {
           query = query.populate('from');
           query = query.populate('to');
           query.exec().then((data) => {
+            data.sort((a, b) => a.date - b.date);
             resolve(data);
           });
         })

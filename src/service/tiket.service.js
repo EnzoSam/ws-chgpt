@@ -12,7 +12,7 @@ module.exports.assignAssistant = assignAssistant;
 function getTiket(id) {
   let prommise = new Promise((resolve, reject) => {
     try {
-      Tiket.findById(id).populate('contact')
+      Tiket.findById(id).populate('contact').populate('assistant')
         .exec()
         .then((data) => {
           resolve(data);
