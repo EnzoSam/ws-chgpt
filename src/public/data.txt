@@ -1,4 +1,8 @@
-Prana es un software de gestión diseñado para ayudarte con todas las áreas de tu empresa, realizando de forma eficiente más de 150 tareas. Sencillo para el usuario, efectivo para la tarea. Mas info: https://taquionit.com/#prana
+//Prana
+
+Prana es un software de gestión diseñado para ayudarte con todas las áreas de tu empresa, realizando de forma eficiente más de 150 tareas. Sencillo para el usuario, efectivo para la tarea. Mas info: https://taquionit.com
+
+//Productos
 
 Para crear un nuevo producto diríjase al menú Inventario = >
  Administración de Inventarios => Producto.
@@ -8,16 +12,18 @@ Para crear un nuevo producto diríjase al menú Inventario = >
   los costos de compra y podrá consultar e ingresar las existencias de mercadería. 
   También tiene la posibilidad de consultar los pedidos pendientes, 
   como también realizarlos. Los productos y servicios que se carguen aquí son los que 
-  luego emplea en Facturas, Remitos, Listas de Precios, Informes, etc. 
+  luego se emplea en Facturas, Remitos, Listas de Precios, Informes, etc. Aqui hay un turorial: https://youtu.be/kCiM6eNymXk
 
-Para generar el informe de IVA Ventas, diríjase al menú Ventas – Informes – Informe IVA Ventas. Tutorial aquí: https://youtu.be/rAZUH3cjPzY
+//Comprobantes General
 
-Para cambiar, editar un porcentaje de interés o crear una tarjeta, Vaya al menú
-Tesorería - Administración de Tesorería - Financiera Ventas. Luego elige la tarjeta 
-que deseas editar o crea una nueva con el botón Nuevo. En la solapa general
-ingresa o modifica los datos de la tarjeta, y en la solapa Financiera debes indicar si es
-tarjeta de crédito o tarjeta de débito. En la solapa financiera también encontrarás un botón editar planes, presiona en este para definir o editar los intereses de la tarjeta  o agregar nuevas cuotas con sus respectivos intereses.
-Aqui te dejo la url de un video tutorial: https://youtu.be/AOMx08nuXkA
+Si no puede editar una factura o comprobante, puede ser por varios motivos: 1) La factura tiene imputaciones. En este caso debes ir al menú Tesorería - Imputaciones, buscar el cliente y seleccionar la factura, luego quitar las imputaciones. En el caso de que la factura esté imputada a un recibo, debes editar el recibo y quitar la factura desde ahí. 2)  No tienes permiso de usuario para realizar esta acción, ya sea por definición de comprobante o por el rol que tienes asignado.
+3) La factura se usó en un basado, por ejemplo para generar un remito. En este caso, debes primero eliminar el comprobante basado.
+
+Para modificar ciertos datos de un comprobante, puedes usar la opción editar encabezado que se ubica en la consulta de comprobante del módulo al que pertenece el comprobante. Con esta opción puedes modificar datos como: numeración, fecha, vendedor, el dni o cuit del cliente, descripción del comprobante.
+
+Si Prana no te permite eliminar un comprobante, puede ser que no tengas permiso, ya sea por definición de comprobante, por estado de comprobante o por el rol del usuario.
+
+//Factura Electronica 
 
 Para generar una factura electrónica en Prana Gestión, debe acceder al menu Ventas - Factura Electrónica - Factura, seleccionar el cliente y presionar en el botón Generar Comprobante. Tutorial aqui: https://youtu.be/WNT-d83vSuU
 
@@ -33,3 +39,32 @@ Si recibes el error: Campo cbtes (comprobantes) con tipo invalido al hacer un co
 Si recibes el error:No es un comprobante válido bajo el Régimen de la Ley n° 27.440, es porque no corresponde hacer una factura electrónica, si no una factura de crédito mi pyme.
 
 Si ya hiciste una factura electrónica y debias hacer una factura de crédito mi pyme, puedes convertirla desde el menú Ventas - Factura electrónica - Gestionar, en esa pantalla debes seleccionar la factura electrónica y presionar en el botón Convertir.
+
+Si ves el mensaje hay coincidencias con registros de afip cuando intentas sincronizar una factura electrónica, debes presionar en el botón Corregir. Esto sucede porque el comprobante se ha enviado a AFIP pero no se registraron los datos en Prana.
+
+//Tarjeta
+
+Para cambiar, editar un porcentaje de interés o crear una tarjeta, Vaya al menú
+Tesorería - Administración de Tesorería - Financiera Ventas. Luego elige la tarjeta 
+que deseas editar o crea una nueva con el botón Nuevo. En la solapa general
+ingresa o modifica los datos de la tarjeta, y en la solapa Financiera debes indicar si es
+tarjeta de crédito o tarjeta de débito. En la solapa financiera también encontrarás un botón editar planes, presiona en este para definir o editar los intereses de la tarjeta  o agregar nuevas cuotas con sus respectivos intereses.
+Aqui te dejo la url de un video tutorial: https://youtu.be/AOMx08nuXkA
+
+//Impositivo
+
+Para generar el informe de IVA Ventas, diríjase al menú Ventas – Informes – Informe IVA Ventas. Tutorial aquí: https://youtu.be/rAZUH3cjPzY
+
+Para generar reportes impositivos, como IVA Compras, IVA Ventas, CITI Compras, CITI Ventas, Libro de IVA Digital, Retenciones de IVA, Retenciones de IIBB, Reporte SIRCAR, reporte SIFERE, Retenciones de ganancias SICORE, Percepciones de IVA, Percepciones de IIBB Rentas DGR o ATM. Debe ingresar al menú Administración - Panel Impositivo y hacer doble click en el reporte que deseas visualizar.
+
+//Impresoras
+
+Si la impresora fiscal no imprime o da error al imprimir un ticket, prueba apagar la impresora por unos segundos y volver a encenderla, si no funciona, prueba reiniciando la computadora.
+
+//Red
+
+El error en el nivel de transporte, o se agotó el tiempo de espera al iniciar prana o al querer ejecutar cualquier funcionalidad, se debe a la inestabilidad de la red. Recuerda que Prana requiere que la conexión con el servidor sea a través de un cable de red. Una posible solución seria reiniciar modems, switch y demás componentes de la red.
+
+//Prana Varios
+
+Si el sistema está funcionando con mucha lentitud, prueba ejecutar la herramienta de mantenimiento de Prana Gestión. Si el problema persiste, testea la red y el correcto funcionamiento del disco desde el visor de eventos de windows.
