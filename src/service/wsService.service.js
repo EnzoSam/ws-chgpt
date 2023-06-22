@@ -183,31 +183,8 @@ function processMessagePrana(whatsappObject) {
                           )
                             .then((assistantResponseText) => {
                               sendTextMessage(assistantResponseText, wID)
-                                .then(() => {
-                                  MessageService.saveMessage(
-                                    assistantResponseText,
-                                    contactSender,
-                                    contact,
-                                    GPTConstants.roles.assistant,
-                                    ""
-                                  )
-                                    .then((messageAssistantSaved) => {
-                                      resolve();
-                                      return;
-                                    })
-                                    .catch((error) => {
-                                      reject({
-                                        code: 500,
-                                        message:
-                                          "Error al guardar mensaje asistente.",
-                                      });
-                                      return;
-                                    });
-                                })
-                                .catch((error) => {
-                                  reject(error);
-                                  return;
-                                });
+                                .then((data) => {
+                                  resolve();
                             })
                             .catch((error) => {
                               reject({
