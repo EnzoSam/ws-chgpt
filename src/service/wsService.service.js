@@ -185,8 +185,16 @@ function processMessagePrana(whatsappObject) {
                               sendTextMessage(assistantResponseText, wID)
                                 .then((data) => {
                                   resolve();
+                                }).catch(error => {
+                                  reject({
+                                    code: 500,
+                                    message: "Error Guardando mensaje.",
+                                    error,
+                                  });
+                                  return;
+                                });
                             })
-                            .catch((error) => {
+                            .catch(error => {
                               reject({
                                 code: 500,
                                 message: "Error GPT.",
