@@ -54,39 +54,33 @@ function getTikets(assistantId, fromDate, state) {
   return prommise;
 }
 
-function verifyTiket(whatsappId, customeName, message) {
+function verifyTiket(contact, message) {
   let prommise = new Promise((resolve, reject) => {
     try {
       let query = Tiket.count();
       query = query.where("state").equals(tikets_states.Open);
-      query = query.where("customeWhatsappId").equals(whatsappId);
+      query = query.where("contact").equals(contact);
 
       query
         .exec()
         .then((data) => {
           console.log(data);
           if (!data || data == null || data === 0) {
-            ContactService.verifyContact(whatsappId, customeName)
-              .then((contactSaved) => {
                 let tiket = new Tiket();
                 tiket.state = tikets_states.Open;
-                tiket.contact = contactSaved;
+                tiket.contact = contact;
                 tiket.problemDescription = message;
                 tiket.number = 0;
                 tiket
                   .save()
-                  .then((data) => {
-                    resolve(tiket);
+                  .then((tiketSaved) => {
+                    resolve(tiketSaved);
                   })
                   .catch((errSave) => {
                     console.log(errSave);
                     reject(errSave);
                   });
-              })
-              .catch((error) => {
-                console.log(error);
-                reject(error);
-              });
+     
           } else {
             console.log("sin tiket");
             resolve(data);

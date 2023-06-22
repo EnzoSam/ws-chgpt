@@ -173,7 +173,7 @@ function processMessagePrana(whatsappObject) {
                 wMessageID
               )
                 .then((messageSaved) => {
-                  TiketService.verifyTiket(wID, wName, textMessage)
+                  TiketService.verifyTiket(contact, textMessage)
                     .then((tiketSaved) => {
                       EmbeddingService.getMostSimilarText(textMessage)
                         .then((similarTextData) => {
