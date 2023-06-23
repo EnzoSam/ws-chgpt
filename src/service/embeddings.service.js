@@ -138,7 +138,6 @@ async function getMostSimilarParagraph(text) {
     mostSimilarParagraph !== undefined
   ) {
     arr.push(mostSimilarParagraph);
-    console.log(mostSimilarParagraph);
   }
 
   return arr;
