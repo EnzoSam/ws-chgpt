@@ -177,31 +177,63 @@ function processMessagePrana(whatsappObject) {
                     .then((tiketSaved) => {
                       EmbeddingService.getMostSimilarText(textMessage)
                         .then((similarTextData) => {
-                          ChatGPTService.resolveChat(
-                            textMessage,
-                            similarTextData
-                          )
-                            .then((assistantResponseText) => {
-                              sendTextMessage(assistantResponseText, wID, wName)
-                                .then((data) => {
-                                  resolve();
-                                }).catch(error => {
+
+                          let mesages = MessageService.getContactMessages
+                          (contact).then(messages =>
+                            {
+                              ChatGPTService.resolveChat(
+                                messages,
+                                similarTextData
+                              )
+                                .then((assistantResponseText) => {
+                                  sendTextMessage(assistantResponseText, wID, wName)
+                                    .then((data) => {
+                                      resolve();
+                                    }).catch(error => {
+                                      reject({
+                                        code: 500,
+                                        message: "Error Guardando mensaje.",
+                                        error,
+                                      });
+                                      return;
+                                    });
+                                })
+                                .catch(error => {
                                   reject({
                                     code: 500,
-                                    message: "Error Guardando mensaje.",
+                                    message: "Error GPT.",
                                     error,
                                   });
                                   return;
                                 });
-                            })
-                            .catch(error => {
-                              reject({
-                                code: 500,
-                                message: "Error GPT.",
-                                error,
+                            }).catch(error=>
+                              {
+                                ChatGPTService.resolveChat(
+                                  [{ role: GPTConstants.roles.user, text: textMessage }],
+                                  similarTextData
+                                )
+                                  .then((assistantResponseText) => {
+                                    sendTextMessage(assistantResponseText, wID, wName)
+                                      .then((data) => {
+                                        resolve();
+                                      }).catch(error => {
+                                        reject({
+                                          code: 500,
+                                          message: "Error Guardando mensaje.",
+                                          error,
+                                        });
+                                        return;
+                                      });
+                                  })
+                                  .catch(error => {
+                                    reject({
+                                      code: 500,
+                                      message: "Error GPT.",
+                                      error,
+                                    });
+                                    return;
+                                  });
                               });
-                              return;
-                            });
                         })
                         .catch((err) => {
                           reject({
