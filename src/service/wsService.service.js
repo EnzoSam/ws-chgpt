@@ -41,7 +41,7 @@ function sendTextMessage(messageText, phoneNumber, contactName) {
                         messageText,
                         contactSender,
                         contact,
-                        GPTConstants.roles.user,
+                        GPTConstants.roles.assistant,
                         ''
                       )
                         .then(messageSaved=> {
@@ -182,7 +182,7 @@ function processMessagePrana(whatsappObject) {
                             similarTextData
                           )
                             .then((assistantResponseText) => {
-                              sendTextMessage(assistantResponseText, wID)
+                              sendTextMessage(assistantResponseText, wID, wName)
                                 .then((data) => {
                                   resolve();
                                 }).catch(error => {
