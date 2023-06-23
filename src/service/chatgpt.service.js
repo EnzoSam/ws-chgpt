@@ -38,7 +38,7 @@ exports.resolveChat = function (listMessageHistory, context) {
         { role: "assistant", content: "jomachi, homachi, jamachi y hamachi es lo mismo, es un software que permite conectarse a una vpn.", name: "Ally" },        
       ];
 
-      for(let m of listUserHistory)
+      for(let m of listMessageHistory)
       {
         console.log(m.role + ' ' + m.text);
           messageOptions.push({ role: m.role, content: m.text });
