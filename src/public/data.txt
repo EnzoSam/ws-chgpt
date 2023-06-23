@@ -2,6 +2,16 @@
 
 Prana es un software de gestión diseñado para ayudarte con todas las áreas de tu empresa, realizando de forma eficiente más de 150 tareas. Sencillo para el usuario, efectivo para la tarea. Mas info: https://taquionit.com
 
+//Taquion IT
+
+Taquion IT es una empresa que desarrolla un sistema de facturación para puntos de ventas y gestión comercial. El sistema se llama Prana Gestión, y contiene módulos como Tesorería, Ventas, Compras, Inventario, Servicio Técnico, Contabilidad, Sueldos, Carrito de compras online con integración con el sistema Prana,  Distribución y venta con dispositivos móviles. En Taquion IT realizamos consultoría de sistemas y también reparación de computadoras e impresoras fiscales. También tenemos un local comercial en el que vendemos todo tipo de hardware, periféricos, computadoras, balanzas, impresoras y registradoras  fiscales. El local comercial está ubicado en calle Christiansen 175 Local 1 en Eldorado Misiones. El email de contacto de taquion it es info@taquionit.com, el teléfono de línea es 3751 425623, el sitio web es: https://taquionit.com. En taquion it no hacemos fotocopias. 
+
+El encargado de ventas, presupuestos y precios es Ivan.
+
+El encargado de cobranzas e informes de estados de cuentas es Nico.
+
+Los costos de mesa de ayuda son: Servicio de mesa de ayuda Remoto: $2860 x HORA (+IVA 21 %) de trabajo Fracción mínima 1/2 hora.(Clientes con mantenimiento 20 % de descuento)
+
 //Productos
 
 Para crear un nuevo producto diríjase al menú Inventario = >
@@ -12,7 +22,7 @@ Para crear un nuevo producto diríjase al menú Inventario = >
   los costos de compra y podrá consultar e ingresar las existencias de mercadería. 
   También tiene la posibilidad de consultar los pedidos pendientes, 
   como también realizarlos. Los productos y servicios que se carguen aquí son los que 
-  luego se emplea en Facturas, Remitos, Listas de Precios, Informes, etc. Aqui hay un turorial: https://youtu.be/kCiM6eNymXk
+  luego se emplea en Facturas, Remitos, Listas de Precios, Informes, etc. 
 
 //Comprobantes General
 
@@ -23,7 +33,7 @@ Para modificar ciertos datos de un comprobante, puedes usar la opción editar en
 
 Si Prana no te permite eliminar un comprobante, puede ser que no tengas permiso, ya sea por definición de comprobante, por estado de comprobante o por el rol del usuario.
 
-//Factura Electronica 
+//Factura Electrónica 
 
 Para generar una factura electrónica en Prana Gestión, debe acceder al menu Ventas - Factura Electrónica - Factura, seleccionar el cliente y presionar en el botón Generar Comprobante. Tutorial aqui: https://youtu.be/WNT-d83vSuU
 
@@ -41,6 +51,12 @@ Si recibes el error:No es un comprobante válido bajo el Régimen de la Ley n° 
 Si ya hiciste una factura electrónica y debias hacer una factura de crédito mi pyme, puedes convertirla desde el menú Ventas - Factura electrónica - Gestionar, en esa pantalla debes seleccionar la factura electrónica y presionar en el botón Convertir.
 
 Si ves el mensaje hay coincidencias con registros de afip cuando intentas sincronizar una factura electrónica, debes presionar en el botón Corregir. Esto sucede porque el comprobante se ha enviado a AFIP pero no se registraron los datos en Prana.
+
+El web service de AFIP suele fallar los últimos y los primeros días del mes por sobrecarga. Solo se puede volver a intentar en unos minutos para ver si sincroniza las facturas.
+
+//Nota de crédito
+
+Si hiciste mal una factura electrónica o tique fiscal y necesitas anularla, debes generar una nota de crédito. Para generar una nota de crédito debes ingresar al menú Ventas - Factura Electrónica o Tique Factura Fiscal (según corresponda). Y accede a la opción nota de crédito. Selecciona el cliente y presiona en el botón generar comprobante. Si hay facturas pendientes para imputar puedes imputar en este paso, si no, una vez en la pantalla nota de crédito, presiona la tecla F3 para basarte en una factura. Carga los datos y presiona en el botón Guardar o la tecla F8.
 
 //Tarjeta
 
@@ -68,3 +84,7 @@ El error en el nivel de transporte, o se agotó el tiempo de espera al iniciar p
 //Prana Varios
 
 Si el sistema está funcionando con mucha lentitud, prueba ejecutar la herramienta de mantenimiento de Prana Gestión. Si el problema persiste, testea la red y el correcto funcionamiento del disco desde el visor de eventos de windows.
+
+Para exportar un comprobante como factura, recibo, etc a pdf, puedes seleccionar la fila en la consulta de comprobantes y haciendo click derecho elegir la opción copiar. Después de esto puedes pegar en cualquier carpeta que desees. También puedes elegir la opción enviar - Enviar por correo, Enviar por whatsapp, Enviar al escritorio. Cualquiera de estas opciones generará un archivo en formato pdf.
+
+Para cambiar el nombre de un acceso directo en Prana, debes abrir el abm de menú, editar el menú y escribir el nombre del acceso directo en el campo Nombre Icono. Luego de esto debes reiniciar Prana y volver a arrastrar el icono para que se cree con el nuevo nombre.
